@@ -1,0 +1,19 @@
+version: '3.7'
+
+volumes:
+  postgres_data:
+
+services:
+  db:
+    image: postgres:alpine
+    container_name: db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=todo_db
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ${PWD}/db/init-db.sql:/docker-entrypoint-initdb.d/init.sql
