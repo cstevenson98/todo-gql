@@ -1,13 +1,13 @@
 package model
 
 type Todo struct {
-	ID          string `json:"id"`
-	Title       string `json:"title"`
-	Description string `json:"description"`
-	Done        bool   `json:"done"`
+	ID          string `db:"id"`
+	Title       string `db:"title"`
+	Description string `db:"description"`
+	Done        bool   `db:"done"`
 }
 
 type NewTodo struct {
-	Title       string `json:"title"`
-	Description string `json:"description"`
+	Title       string `db:"title"`
+	Description string `db:"description"`
 }

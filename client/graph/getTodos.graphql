@@ -1,0 +1,8 @@
+query GetTodos {
+    todos {
+        id
+        title
+        description
+        done
+    }
+}
