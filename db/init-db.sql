@@ -4,3 +4,7 @@ CREATE TABLE todos (
     description TEXT NOT NULL,
     done BOOLEAN NOT NULL
 )
+
+CREATE TABLE users (
+
+)

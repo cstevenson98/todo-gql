@@ -11,11 +11,22 @@ type Todo {
 
 type Query {
   todos: [Todo!]!
+  users: [User!]!
+}
+
+type User {
+  id: ID!
+  name: String!
+  todos: [Todo!]!
 }
 
 input NewTodo {
   title: String!
   description: String!
+}
+
+input NewUser {
+  name: String!
 }
 
 type Mutation {

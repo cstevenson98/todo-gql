@@ -5,6 +5,7 @@ package graph
 
 import (
 	"context"
+	"fmt"
 	"test/graph/generated"
 	"test/graph/model"
 )
@@ -49,6 +50,10 @@ func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
 	}
 
 	return todos, nil
+}
+
+func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
+	panic(fmt.Errorf("not implemented"))
 }
 
 // Mutation returns generated.MutationResolver implementation.
