@@ -1,8 +1,8 @@
 query GetTodos {
-    todos {
-        id
-        title
-        description
-        done
-    }
+  todos {
+    id
+    title
+    description
+    done
+  }
 }
