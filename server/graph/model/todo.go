@@ -21,3 +21,16 @@ type User struct {
 type NewUser struct {
 	Name string `db:"name"`
 }
+
+type Group struct {
+	ID          string   `json:"id"`
+	Name        string   `json:"name"`
+	Description string   `json:"description"`
+	Todos       []*Todo  `json:"todos"`
+	UserIds     []string `json:"userIds"`
+}
+
+type NewGroup struct {
+	Name        string `json:"name"`
+	Description string `json:"description"`
+}

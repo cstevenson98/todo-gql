@@ -12,11 +12,34 @@ CREATE TABLE users (
     primary key(id)
 );
 
+CREATE TABLE groups (
+    id text not null, 
+    name text not null, 
+    description text not null,
+    primary key(id)
+);
+
 CREATE TABLE users_todos (
     todo_id text not null, 
     user_id text not null, 
     primary key(todo_id, user_id), 
     foreign key(todo_id) references todos(id) on delete cascade, 
+    foreign key(user_id) references users(id) on delete cascade
+);
+
+CREATE TABLE groups_todos (
+    todo_id text not null, 
+    group_id text not null, 
+    primary key(todo_id, group_id), 
+    foreign key(todo_id) references todos(id) on delete cascade, 
+    foreign key(group_id) references groups(id) on delete cascade
+);
+
+CREATE TABLE groups_users (
+    group_id text not null, 
+    user_id text not null, 
+    primary key(group_id, user_id), 
+    foreign key(group_id) references groups(id) on delete cascade, 
     foreign key(user_id) references users(id) on delete cascade
 );
 

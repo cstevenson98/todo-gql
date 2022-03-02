@@ -5,99 +5,44 @@ package graph
 
 import (
 	"context"
-	"fmt"
-	"github.com/google/uuid"
 	"test/graph/generated"
 	"test/graph/model"
 )
 
 func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
-	stmt := `INSERT INTO todos (id, title, description, done) VALUES($1, $2, $3, $4)`
-
-	id := uuid.NewString()
-	var todo model.Todo
-
-	_, err := r.DB.Exec(stmt, id, input.Title, input.Description, false)
-	if err != nil {
-		return nil, err
-	}
-	todo.ID = id
-	todo.Title = input.Title
-	todo.Description = input.Description
-	todo.Done = false
-	return &todo, nil
+	return r.NewTodo(input)
 }
 
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
-	panic(fmt.Errorf("not implemented"))
+	return r.NewUser(input)
+}
+
+func (r *mutationResolver) CreateGroup(ctx context.Context, input model.NewGroup) (*model.Group, error) {
+	return r.NewGroup(input)
 }
 
 func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
-	qry := `SELECT id, title, description, done FROM todos`
-	rows, err := r.DB.Query(qry)
-	if err != nil {
-		return nil, err
-	}
+	return r.GetTodos(nil)
+}
 
-	defer rows.Close()
-
-	var todos []*model.Todo
-	for rows.Next() {
-		todo := &model.Todo{}
-		err = rows.Scan(&todo.ID, &todo.Title, &todo.Description, &todo.Done)
-		if err != nil {
-			return nil, err
-		}
-
-		todos = append(todos, todo)
-	}
-
-	if err = rows.Err(); err != nil {
-		return nil, err
-	}
-
-	return todos, nil
+func (r *queryResolver) TodosByID(ctx context.Context, input []string) ([]*model.Todo, error) {
+	return r.GetTodos(input)
 }
 
 func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
-	qry := `SELECT id, name FROM users`
-	rows, err := r.DB.Query(qry)
-	if err != nil {
-		return nil, err
-	}
+	return r.GetUsers(nil)
+}
 
-	defer rows.Close()
+func (r *queryResolver) UsersByID(ctx context.Context, input []string) ([]*model.User, error) {
+	return r.GetUsers(input)
+}
 
-	var users []*model.User
-	for rows.Next() {
-		user := &model.User{}
-		err = rows.Scan(&user.ID, &user.Name)
-		if err != nil {
-			return nil, err
-		}
+func (r *queryResolver) Groups(ctx context.Context) ([]*model.Group, error) {
+	return r.GetGroups(nil)
+}
 
-		todoQry := `SELECT id, title, description, done FROM todos_users_view where user_id = '` + user.ID + `'`
-		fmt.Println(todoQry)
-		todoRows, rowsErr := r.DB.Query(todoQry)
-		if rowsErr != nil {
-			return nil, rowsErr
-		}
-
-		var todos []*model.Todo
-		for todoRows.Next() {
-			todo := &model.Todo{}
-			rowsErr = todoRows.Scan(&todo.ID, &todo.Title, &todo.Description, &todo.Done)
-			todos = append(todos, todo)
-		}
-		user.Todos = todos
-		users = append(users, user)
-	}
-
-	if err = rows.Err(); err != nil {
-		return nil, err
-	}
-
-	return users, nil
+func (r *queryResolver) GroupByID(ctx context.Context, input []string) ([]*model.Group, error) {
+	return r.GetGroups(input)
 }
 
 // Mutation returns generated.MutationResolver implementation.

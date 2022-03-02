@@ -2,6 +2,15 @@
 #
 # https://gqlgen.com/getting-started/
 
+type Query {
+  todos: [Todo!]!
+  todosByID(input: [ID!]!): [Todo!]!
+  users: [User!]!
+  usersByID(input: [ID!]!): [User!]!
+  groups: [Group!]!
+  groupByID(input: [ID!]!): [Group!]!
+}
+
 type Todo {
   id: ID!
   title: String!
@@ -9,15 +18,18 @@ type Todo {
   done: Boolean!
 }
 
-type Query {
-  todos: [Todo!]!
-  users: [User!]!
-}
-
 type User {
   id: ID!
   name: String!
   todos: [Todo!]!
+}
+
+type Group {
+  id: ID!
+  name: String!
+  description: String!
+  todos: [Todo!]!
+  userIds: [ID!]!
 }
 
 input NewTodo {
@@ -29,7 +41,13 @@ input NewUser {
   name: String!
 }
 
+input NewGroup {
+  name: String!
+  description: String!
+}
+
 type Mutation {
   createTodo(input: NewTodo!): Todo!
   createUser(input: NewUser!): User!
+  createGroup(input: NewGroup!): Group!
 }
