@@ -29,8 +29,8 @@ func (r *mutationResolver) CreateTodo(ctx context.Context, userOrGroupID string,
 	return newTodo, nil
 }
 
-func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
-	newUser, err := r.NewUser(input)
+func (r *mutationResolver) CreateUser(ctx context.Context, email string, password string, input model.NewUser) (*model.User, error) {
+	newUser, err := r.NewUser(email, password, input)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +61,14 @@ func (r *mutationResolver) CreateGroup(ctx context.Context, input model.NewGroup
 	r.mu.Unlock()
 
 	return newGroup, nil
+}
+
+func (r *mutationResolver) Login(ctx context.Context, email string, password string) (*model.Token, error) {
+	return nil, nil
+}
+
+func (r *mutationResolver) Signup(ctx context.Context, email string, password string) (*model.Token, error) {
+	return nil, nil
 }
 
 func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {

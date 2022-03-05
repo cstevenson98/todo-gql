@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/google/uuid"
+	"golang.org/x/crypto/bcrypt"
 	"sync"
 	"test/graph/model"
 )
@@ -15,7 +16,44 @@ type Resolver struct {
 	UserObservers  map[string]chan []*model.User
 	GroupObservers map[string]chan []*model.Group
 
+	UserAuthTokens map[string]string
+
 	mu sync.Mutex
+}
+
+func (r *Resolver) UserLogIn(email, password string) (*model.User, error) {
+	hashedPass, err := bcrypt.GenerateFromPassword([]byte(password), hashSize)
+	if err != nil {
+		return nil, err
+	}
+
+	query := `SELECT id, password FROM users WHERE users.email = ` + email
+	rows, err := r.DB.Query(query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var userID string
+		var storedHash string
+		err = rows.Scan(&userID, &storedHash)
+		if err != nil {
+			return nil, err
+		}
+
+
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+func (r *Resolver) UserSignUp(email, password string) (*model.User, error) {
+	return nil, nil
 }
 
 // NewTodo creates a new TODO
@@ -73,13 +111,14 @@ func (r *Resolver) NewTodo(userOrGroupID string, input model.NewTodo) (*model.To
 }
 
 // NewUser creates a new USER
-func (r *Resolver) NewUser(input model.NewUser) (*model.User, error) {
-	stmt := `INSERT INTO users (id, name) VALUES($1, $2)`
+func (r *Resolver) NewUser(email, password string, input model.NewUser) (*model.User, error) {
+	stmt := `INSERT INTO users (id, name, email, password) VALUES($1, $2, $3, $4)`
 
 	id := uuid.NewString()
 	var user model.User
 
-	_, err := r.DB.Exec(stmt, id, input.Name)
+	hash, err := bcrypt.GenerateFromPassword([]byte(password), 16)
+	_, err = r.DB.Exec(stmt, id, input.Name, email, hash)
 	if err != nil {
 		return nil, err
 	}

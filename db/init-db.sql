@@ -8,7 +8,9 @@ CREATE TABLE todos (
 
 CREATE TABLE users (
     id text not null, 
-    name text not null, 
+    name text not null,
+    email text unique not null,
+    password text not null,
     primary key(id)
 );
 

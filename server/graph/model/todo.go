@@ -1,5 +1,9 @@
 package model
 
+type Token struct {
+	Token string `json:"token"`
+}
+
 type Todo struct {
 	ID          string `db:"id"`
 	Title       string `db:"title"`
@@ -13,9 +17,9 @@ type NewTodo struct {
 }
 
 type User struct {
-	ID    string  `db:"id"`
-	Name  string  `db:"name"`
-	Todos []*Todo `db:"todos"`
+	ID             string  `db:"id"`
+	Name           string  `db:"name"`
+	Todos          []*Todo `db:"todos"`
 }
 
 type NewUser struct {
