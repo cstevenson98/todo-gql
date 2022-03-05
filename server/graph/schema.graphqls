@@ -29,7 +29,7 @@ type Group {
   name: String!
   description: String!
   todos: [Todo!]!
-  userIds: [ID!]!
+  users: [User!]!
 }
 
 input NewTodo {
@@ -50,4 +50,15 @@ type Mutation {
   createTodo(input: NewTodo!): Todo!
   createUser(input: NewUser!): User!
   createGroup(input: NewGroup!): Group!
+}
+
+type Subscription {
+  todos: [Todo!]!
+  todoID(id: String!): Todo!
+
+  users: [User!]!
+  userID(id: String!): User!
+
+  groups: [Group!]!
+  groupID(id: String!): Group!
 }

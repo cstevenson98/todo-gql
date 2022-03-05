@@ -1,8 +1,10 @@
-import { useQuery } from "urql";
-import { GetTodosDocument, GetTodosQuery } from "./generated";
+import { useSubscription } from "urql";
+import { SubTodosDocument, SubTodosSubscription } from "./generated";
 
 function App() {
-  const [result] = useQuery<GetTodosQuery>({ query: GetTodosDocument });
+  const [result] = useSubscription<SubTodosSubscription>({
+    query: SubTodosDocument,
+  });
 
   return (
     <div>
@@ -10,7 +12,7 @@ function App() {
         return (
           <ul>
             <li>Title: {elem.title}</li>
-            <li>ID: {elem.id}</li>
+            <li>Description: {elem.description}</li>
           </ul>
         );
       })}

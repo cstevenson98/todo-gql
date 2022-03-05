@@ -3,11 +3,18 @@ package graph
 import (
 	"database/sql"
 	"github.com/google/uuid"
+	"sync"
 	"test/graph/model"
 )
 
 type Resolver struct {
 	DB *sql.DB
+
+	TodoObservers  map[string]chan []*model.Todo
+	UserObservers  map[string]chan []*model.User
+	GroupObservers map[string]chan []*model.Group
+
+	mu sync.Mutex
 }
 
 // NewTodo creates a new TODO
@@ -233,6 +240,8 @@ func (r *Resolver) GetGroups(IDs []string) ([]*model.Group, error) {
 			if err != nil {
 				return nil, err
 			}
+
+			group.Users, err = r.GetGroupUsers(group.ID)
 
 			groups = append(groups, group)
 		}
