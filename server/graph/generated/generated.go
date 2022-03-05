@@ -55,7 +55,7 @@ type ComplexityRoot struct {
 
 	Mutation struct {
 		CreateGroup func(childComplexity int, input model.NewGroup) int
-		CreateTodo  func(childComplexity int, input model.NewTodo) int
+		CreateTodo  func(childComplexity int, userOrGroupID string, input model.NewTodo) int
 		CreateUser  func(childComplexity int, input model.NewUser) int
 	}
 
@@ -92,7 +92,7 @@ type ComplexityRoot struct {
 }
 
 type MutationResolver interface {
-	CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error)
+	CreateTodo(ctx context.Context, userOrGroupID string, input model.NewTodo) (*model.Todo, error)
 	CreateUser(ctx context.Context, input model.NewUser) (*model.User, error)
 	CreateGroup(ctx context.Context, input model.NewGroup) (*model.Group, error)
 }
@@ -185,7 +185,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.CreateTodo(childComplexity, args["input"].(model.NewTodo)), true
+		return e.complexity.Mutation.CreateTodo(childComplexity, args["userOrGroupID"].(string), args["input"].(model.NewTodo)), true
 
 	case "Mutation.createUser":
 		if e.complexity.Mutation.CreateUser == nil {
@@ -492,7 +492,7 @@ input NewGroup {
 }
 
 type Mutation {
-  createTodo(input: NewTodo!): Todo!
+  createTodo(userOrGroupID: ID!, input: NewTodo!): Todo!
   createUser(input: NewUser!): User!
   createGroup(input: NewGroup!): Group!
 }
@@ -532,15 +532,24 @@ func (ec *executionContext) field_Mutation_createGroup_args(ctx context.Context,
 func (ec *executionContext) field_Mutation_createTodo_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 model.NewTodo
-	if tmp, ok := rawArgs["input"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg0, err = ec.unmarshalNNewTodo2testᚋgraphᚋmodelᚐNewTodo(ctx, tmp)
+	var arg0 string
+	if tmp, ok := rawArgs["userOrGroupID"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("userOrGroupID"))
+		arg0, err = ec.unmarshalNID2string(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["input"] = arg0
+	args["userOrGroupID"] = arg0
+	var arg1 model.NewTodo
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg1, err = ec.unmarshalNNewTodo2testᚋgraphᚋmodelᚐNewTodo(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg1
 	return args, nil
 }
 
@@ -902,7 +911,7 @@ func (ec *executionContext) _Mutation_createTodo(ctx context.Context, field grap
 	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateTodo(rctx, args["input"].(model.NewTodo))
+		return ec.resolvers.Mutation().CreateTodo(rctx, args["userOrGroupID"].(string), args["input"].(model.NewTodo))
 	})
 	if err != nil {
 		ec.Error(ctx, err)

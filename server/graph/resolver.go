@@ -2,6 +2,7 @@ package graph
 
 import (
 	"database/sql"
+	"fmt"
 	"github.com/google/uuid"
 	"sync"
 	"test/graph/model"
@@ -18,17 +19,53 @@ type Resolver struct {
 }
 
 // NewTodo creates a new TODO
-func (r *Resolver) NewTodo(input model.NewTodo) (*model.Todo, error) {
-	stmt := `INSERT INTO todos (id, title, description, done) VALUES($1, $2, $3, $4)`
-
-	id := uuid.NewString()
-	var todo model.Todo
-
-	_, err := r.DB.Exec(stmt, id, input.Title, input.Description, false)
+func (r *Resolver) NewTodo(userOrGroupID string, input model.NewTodo) (*model.Todo, error) {
+	// Determine whether the ID corresponds to a user or group
+	user, err := r.GetUsers([]string{userOrGroupID})
 	if err != nil {
 		return nil, err
 	}
-	todo.ID = id
+
+	group, err := r.GetGroups([]string{userOrGroupID})
+	if err != nil {
+		return nil, err
+	}
+
+	var joinTableStmt string
+	if len(user) != 0 {
+		joinTableStmt = `INSERT INTO users_todos (todo_id, user_id) VALUES($1, $2)`
+	} else if len(group) != 0 {
+		joinTableStmt = `INSERT INTO groups_todos (todo_id, group_id) VALUES($1, $2)`
+	} else {
+		return nil, fmt.Errorf("no group or user with ID: %q", userOrGroupID)
+	}
+
+	tx, err := r.DB.Begin()
+	if err != nil {
+		return nil, err
+	}
+
+	todoId := uuid.NewString()
+	var todo model.Todo
+
+	todoStmt := `INSERT INTO todos (id, title, description, done) VALUES($1, $2, $3, $4)`
+	_, err = tx.Exec(todoStmt, todoId, input.Title, input.Description, false)
+	if err != nil {
+		tx.Rollback()
+		return nil, err
+	}
+
+	_, err = tx.Exec(joinTableStmt, todoId, userOrGroupID)
+	if err != nil {
+		tx.Rollback()
+		return nil, err
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		return nil, fmt.Errorf("database commit error %q", err.Error())
+	}
+	todo.ID = todoId
 	todo.Title = input.Title
 	todo.Description = input.Description
 	todo.Done = false

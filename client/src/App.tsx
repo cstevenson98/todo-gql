@@ -1,5 +1,6 @@
 import { useSubscription } from "urql";
 import { SubTodosDocument, SubTodosSubscription } from "./generated";
+import Button from "@mui/material/Button";
 
 function App() {
   const [result] = useSubscription<SubTodosSubscription>({
@@ -8,6 +9,9 @@ function App() {
 
   return (
     <div>
+      <Button variant="contained" fullWidth={true}>
+        Hello world
+      </Button>
       {result.data?.todos.map((elem) => {
         return (
           <ul>

@@ -12,8 +12,8 @@ import (
 	"github.com/google/uuid"
 )
 
-func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
-	newTodo, err := r.NewTodo(input)
+func (r *mutationResolver) CreateTodo(ctx context.Context, userOrGroupID string, input model.NewTodo) (*model.Todo, error) {
+	newTodo, err := r.NewTodo(userOrGroupID, input)
 	if err != nil {
 		return nil, err
 	}
@@ -186,17 +186,3 @@ func (r *Resolver) Subscription() generated.SubscriptionResolver { return &subsc
 type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
 type subscriptionResolver struct{ *Resolver }
-
-//
-//// !!! WARNING !!!
-//// The code below was going to be deleted when updating resolvers. It has been copied here so you have
-//// one last chance to move it out of harms way if you want. There are two reasons this happens:
-////  - When renaming or deleting a resolver the old code will be put in here. You can safely delete
-////    it when you're done.
-////  - You have helper methods in this file. Move them out to keep these resolver files clean.
-//func (r *groupResolver) Users(ctx context.Context, obj *model.Group) ([]*model.User, error) {
-//	panic(fmt.Errorf("not implemented"))
-//}
-//func (r *Resolver) Group() generated.GroupResolver { return &groupResolver{r} }
-//
-//type groupResolver struct{ *Resolver }
