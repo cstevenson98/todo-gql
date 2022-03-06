@@ -14,12 +14,13 @@ type Claims struct {
 	jwt.StandardClaims
 }
 
-func GenerateToken(username string) (string, error) {
+func GenerateToken(username, uuid string) (string, error) {
 	token := jwt.New(jwt.SigningMethodHS256)
 
 	claims := token.Claims.(jwt.MapClaims)
 
 	claims["username"] = username
+	claims["uuid"] = uuid
 	claims["exp"] = time.Now().Add(time.Minute * 5).Unix()
 	tokenString, err := token.SignedString(SecretKey)
 	if err != nil {
@@ -30,14 +31,15 @@ func GenerateToken(username string) (string, error) {
 }
 
 // ParseToken parses a jwt token and returns the username in it's claims
-func ParseToken(tokenStr string) (string, error) {
+func ParseToken(tokenStr string) (string, string, error) {
 	token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
 		return SecretKey, nil
 	})
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
 		username := claims["username"].(string)
-		return username, nil
+		uuid := claims["uuid"].(string)
+		return username, uuid, nil
 	} else {
-		return "", err
+		return "", "", err
 	}
 }

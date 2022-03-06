@@ -1,5 +1,5 @@
 package graph
 
 const (
-	hashSize = 16
+	hashSize = 8
 )

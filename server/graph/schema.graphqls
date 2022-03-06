@@ -46,16 +46,12 @@ input NewGroup {
   description: String!
 }
 
-type Token {
-  token: String!
-}
-
 type Mutation {
   createTodo(userOrGroupID: ID!, input: NewTodo!): Todo!
   createUser(email: String!, password: String!, input: NewUser!): User!
   createGroup(input: NewGroup!): Group!
-  login(email: String!, password: String!): Token!
-  signup(email: String!, password: String!, input: NewUser!): Token!
+  login(email: String!, password: String!): String!
+  signup(email: String!, password: String!, input: NewUser!): String!
 }
 
 type Subscription {

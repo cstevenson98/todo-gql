@@ -10,7 +10,7 @@ import (
 	"strconv"
 	"sync"
 	"sync/atomic"
-	"test/graph/model"
+	"github.com/cstevenson98/todo-gql/server/graph/model"
 
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/99designs/gqlgen/graphql/introspection"
@@ -86,10 +86,6 @@ type ComplexityRoot struct {
 		Title       func(childComplexity int) int
 	}
 
-	Token struct {
-		Token func(childComplexity int) int
-	}
-
 	User struct {
 		ID    func(childComplexity int) int
 		Name  func(childComplexity int) int
@@ -101,8 +97,8 @@ type MutationResolver interface {
 	CreateTodo(ctx context.Context, userOrGroupID string, input model.NewTodo) (*model.Todo, error)
 	CreateUser(ctx context.Context, email string, password string, input model.NewUser) (*model.User, error)
 	CreateGroup(ctx context.Context, input model.NewGroup) (*model.Group, error)
-	Login(ctx context.Context, email string, password string) (*model.Token, error)
-	Signup(ctx context.Context, email string, password string, input model.NewUser) (*model.Token, error)
+	Login(ctx context.Context, email string, password string) (string, error)
+	Signup(ctx context.Context, email string, password string, input model.NewUser) (string, error)
 }
 type QueryResolver interface {
 	Todos(ctx context.Context) ([]*model.Todo, error)
@@ -373,13 +369,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Todo.Title(childComplexity), true
 
-	case "Token.token":
-		if e.complexity.Token.Token == nil {
-			break
-		}
-
-		return e.complexity.Token.Token(childComplexity), true
-
 	case "User.id":
 		if e.complexity.User.ID == nil {
 			break
@@ -530,16 +519,12 @@ input NewGroup {
   description: String!
 }
 
-type Token {
-  token: String!
-}
-
 type Mutation {
   createTodo(userOrGroupID: ID!, input: NewTodo!): Todo!
   createUser(email: String!, password: String!, input: NewUser!): User!
   createGroup(input: NewGroup!): Group!
-  login(email: String!, password: String!): Token!
-  signup(email: String!, password: String!, input: NewUser!): Token!
+  login(email: String!, password: String!): String!
+  signup(email: String!, password: String!, input: NewUser!): String!
 }
 
 type Subscription {
@@ -1169,9 +1154,9 @@ func (ec *executionContext) _Mutation_login(ctx context.Context, field graphql.C
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.Token)
+	res := resTmp.(string)
 	fc.Result = res
-	return ec.marshalNToken2ᚖtestᚋgraphᚋmodelᚐToken(ctx, field.Selections, res)
+	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Mutation_signup(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -1211,9 +1196,9 @@ func (ec *executionContext) _Mutation_signup(ctx context.Context, field graphql.
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.Token)
+	res := resTmp.(string)
 	fc.Result = res
-	return ec.marshalNToken2ᚖtestᚋgraphᚋmodelᚐToken(ctx, field.Selections, res)
+	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_todos(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -1947,41 +1932,6 @@ func (ec *executionContext) _Todo_done(ctx context.Context, field graphql.Collec
 	res := resTmp.(bool)
 	fc.Result = res
 	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Token_token(ctx context.Context, field graphql.CollectedField, obj *model.Token) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "Token",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Token, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _User_id(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
@@ -3728,37 +3678,6 @@ func (ec *executionContext) _Todo(ctx context.Context, sel ast.SelectionSet, obj
 	return out
 }
 
-var tokenImplementors = []string{"Token"}
-
-func (ec *executionContext) _Token(ctx context.Context, sel ast.SelectionSet, obj *model.Token) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, tokenImplementors)
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("Token")
-		case "token":
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Token_token(ctx, field, obj)
-			}
-
-			out.Values[i] = innerFunc(ctx)
-
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
 var userImplementors = []string{"User"}
 
 func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj *model.User) graphql.Marshaler {
@@ -4425,20 +4344,6 @@ func (ec *executionContext) marshalNTodo2ᚖtestᚋgraphᚋmodelᚐTodo(ctx cont
 		return graphql.Null
 	}
 	return ec._Todo(ctx, sel, v)
-}
-
-func (ec *executionContext) marshalNToken2testᚋgraphᚋmodelᚐToken(ctx context.Context, sel ast.SelectionSet, v model.Token) graphql.Marshaler {
-	return ec._Token(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNToken2ᚖtestᚋgraphᚋmodelᚐToken(ctx context.Context, sel ast.SelectionSet, v *model.Token) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._Token(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalNUser2testᚋgraphᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v model.User) graphql.Marshaler {

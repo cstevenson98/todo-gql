@@ -3,10 +3,10 @@ package graph
 import (
 	"database/sql"
 	"fmt"
+	"github.com/cstevenson98/todo-gql/server/graph/model"
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 	"sync"
-	"test/graph/model"
 )
 
 type Resolver struct {
@@ -128,7 +128,7 @@ func (r *Resolver) NewUser(email, password string, input model.NewUser) (*model.
 	id := uuid.NewString()
 	var user model.User
 
-	hash, err := bcrypt.GenerateFromPassword([]byte(password), 16)
+	hash, err := bcrypt.GenerateFromPassword([]byte(password), hashSize)
 	_, err = r.DB.Exec(stmt, id, input.Name, email, hash)
 	if err != nil {
 		return nil, err

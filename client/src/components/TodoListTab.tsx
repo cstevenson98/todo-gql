@@ -1,9 +1,4 @@
-import { useSubscription } from "urql";
-import {
-  SubTodosDocument,
-  SubTodosSubscription,
-  useSubTodosSubscription,
-} from "../generated";
+import { useSubTodosSubscription } from "../generated";
 import Stack from "@mui/material/Stack";
 import Card from "@mui/material/Card";
 import { CardContent, Typography } from "@mui/material";

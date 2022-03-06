@@ -1,4 +1,4 @@
-module test
+module github.com/cstevenson98/todo-gql/server
 
 go 1.17
 

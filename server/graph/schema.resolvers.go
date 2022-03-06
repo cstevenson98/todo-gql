@@ -7,8 +7,8 @@ import (
 	"context"
 	"fmt"
 	"github.com/google/uuid"
-	"test/graph/generated"
-	"test/graph/model"
+	"github.com/cstevenson98/todo-gql/server/graph/generated"
+	"github.com/cstevenson98/todo-gql/server/graph/model"
 )
 
 func (r *mutationResolver) CreateTodo(ctx context.Context, userOrGroupID string, input model.NewTodo) (*model.Todo, error) {
@@ -62,12 +62,12 @@ func (r *mutationResolver) CreateGroup(ctx context.Context, input model.NewGroup
 	return newGroup, nil
 }
 
-func (r *mutationResolver) Login(ctx context.Context, email string, password string) (*model.Token, error) {
-	return nil, nil
+func (r *mutationResolver) Login(ctx context.Context, email string, password string) (string, error) {
+	return "", nil
 }
 
-func (r *mutationResolver) Signup(ctx context.Context, email string, password string, input model.NewUser) (*model.Token, error) {
-	return nil, nil
+func (r *mutationResolver) Signup(ctx context.Context, email string, password string, input model.NewUser) (string, error) {
+	return "", nil
 }
 
 func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
