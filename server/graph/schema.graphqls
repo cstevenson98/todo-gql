@@ -55,7 +55,7 @@ type Mutation {
   createUser(email: String!, password: String!, input: NewUser!): User!
   createGroup(input: NewGroup!): Group!
   login(email: String!, password: String!): Token!
-  signup(email: String!, password: String!): Token!
+  signup(email: String!, password: String!, input: NewUser!): Token!
 }
 
 type Subscription {

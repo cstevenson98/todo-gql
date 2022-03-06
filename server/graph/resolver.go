@@ -27,6 +27,8 @@ func (r *Resolver) UserLogIn(email, password string) (*model.User, error) {
 		return nil, err
 	}
 
+	fmt.Println(string(hashedPass))
+
 	query := `SELECT id, password FROM users WHERE users.email = ` + email
 	rows, err := r.DB.Query(query)
 	if err != nil {
@@ -42,7 +44,7 @@ func (r *Resolver) UserLogIn(email, password string) (*model.User, error) {
 			return nil, err
 		}
 
-
+		fmt.Println(storedHash)
 	}
 
 	if err = rows.Err(); err != nil {
@@ -53,6 +55,15 @@ func (r *Resolver) UserLogIn(email, password string) (*model.User, error) {
 }
 
 func (r *Resolver) UserSignUp(email, password string) (*model.User, error) {
+	hashedPass, err := bcrypt.GenerateFromPassword([]byte(password), hashSize)
+	if err != nil {
+		return nil, err
+	}
+
+	fmt.Println(string(hashedPass))
+
+	stmt := `INSERT INTO users (id, name, email, password) VALUES($1, $2, $3, $4)`
+	fmt.Println(stmt)
 	return nil, nil
 }
 

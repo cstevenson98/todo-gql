@@ -58,7 +58,7 @@ type ComplexityRoot struct {
 		CreateTodo  func(childComplexity int, userOrGroupID string, input model.NewTodo) int
 		CreateUser  func(childComplexity int, email string, password string, input model.NewUser) int
 		Login       func(childComplexity int, email string, password string) int
-		Signup      func(childComplexity int, email string, password string) int
+		Signup      func(childComplexity int, email string, password string, input model.NewUser) int
 	}
 
 	Query struct {
@@ -102,7 +102,7 @@ type MutationResolver interface {
 	CreateUser(ctx context.Context, email string, password string, input model.NewUser) (*model.User, error)
 	CreateGroup(ctx context.Context, input model.NewGroup) (*model.Group, error)
 	Login(ctx context.Context, email string, password string) (*model.Token, error)
-	Signup(ctx context.Context, email string, password string) (*model.Token, error)
+	Signup(ctx context.Context, email string, password string, input model.NewUser) (*model.Token, error)
 }
 type QueryResolver interface {
 	Todos(ctx context.Context) ([]*model.Todo, error)
@@ -229,7 +229,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.Signup(childComplexity, args["email"].(string), args["password"].(string)), true
+		return e.complexity.Mutation.Signup(childComplexity, args["email"].(string), args["password"].(string), args["input"].(model.NewUser)), true
 
 	case "Query.groupByID":
 		if e.complexity.Query.GroupByID == nil {
@@ -539,7 +539,7 @@ type Mutation {
   createUser(email: String!, password: String!, input: NewUser!): User!
   createGroup(input: NewGroup!): Group!
   login(email: String!, password: String!): Token!
-  signup(email: String!, password: String!): Token!
+  signup(email: String!, password: String!, input: NewUser!): Token!
 }
 
 type Subscription {
@@ -676,6 +676,15 @@ func (ec *executionContext) field_Mutation_signup_args(ctx context.Context, rawA
 		}
 	}
 	args["password"] = arg1
+	var arg2 model.NewUser
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg2, err = ec.unmarshalNNewUser2testᚋgraphᚋmodelᚐNewUser(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg2
 	return args, nil
 }
 
@@ -1190,7 +1199,7 @@ func (ec *executionContext) _Mutation_signup(ctx context.Context, field graphql.
 	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().Signup(rctx, args["email"].(string), args["password"].(string))
+		return ec.resolvers.Mutation().Signup(rctx, args["email"].(string), args["password"].(string), args["input"].(model.NewUser))
 	})
 	if err != nil {
 		ec.Error(ctx, err)

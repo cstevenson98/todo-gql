@@ -67,7 +67,7 @@ func (r *mutationResolver) Login(ctx context.Context, email string, password str
 	return nil, nil
 }
 
-func (r *mutationResolver) Signup(ctx context.Context, email string, password string) (*model.Token, error) {
+func (r *mutationResolver) Signup(ctx context.Context, email string, password string, input model.NewUser) (*model.Token, error) {
 	return nil, nil
 }
 
