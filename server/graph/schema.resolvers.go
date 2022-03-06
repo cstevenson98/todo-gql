@@ -6,10 +6,9 @@ package graph
 import (
 	"context"
 	"fmt"
+	"github.com/google/uuid"
 	"test/graph/generated"
 	"test/graph/model"
-
-	"github.com/google/uuid"
 )
 
 func (r *mutationResolver) CreateTodo(ctx context.Context, userOrGroupID string, input model.NewTodo) (*model.Todo, error) {
