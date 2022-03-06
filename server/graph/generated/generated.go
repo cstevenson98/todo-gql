@@ -10,10 +10,10 @@ import (
 	"strconv"
 	"sync"
 	"sync/atomic"
-	"github.com/cstevenson98/todo-gql/server/graph/model"
 
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/99designs/gqlgen/graphql/introspection"
+	"github.com/cstevenson98/todo-gql/server/graph/model"
 	gqlparser "github.com/vektah/gqlparser/v2"
 	"github.com/vektah/gqlparser/v2/ast"
 )
@@ -550,7 +550,7 @@ func (ec *executionContext) field_Mutation_createGroup_args(ctx context.Context,
 	var arg0 model.NewGroup
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg0, err = ec.unmarshalNNewGroup2testᚋgraphᚋmodelᚐNewGroup(ctx, tmp)
+		arg0, err = ec.unmarshalNNewGroup2githubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐNewGroup(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -574,7 +574,7 @@ func (ec *executionContext) field_Mutation_createTodo_args(ctx context.Context, 
 	var arg1 model.NewTodo
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg1, err = ec.unmarshalNNewTodo2testᚋgraphᚋmodelᚐNewTodo(ctx, tmp)
+		arg1, err = ec.unmarshalNNewTodo2githubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐNewTodo(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -607,7 +607,7 @@ func (ec *executionContext) field_Mutation_createUser_args(ctx context.Context, 
 	var arg2 model.NewUser
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg2, err = ec.unmarshalNNewUser2testᚋgraphᚋmodelᚐNewUser(ctx, tmp)
+		arg2, err = ec.unmarshalNNewUser2githubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐNewUser(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -664,7 +664,7 @@ func (ec *executionContext) field_Mutation_signup_args(ctx context.Context, rawA
 	var arg2 model.NewUser
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg2, err = ec.unmarshalNNewUser2testᚋgraphᚋmodelᚐNewUser(ctx, tmp)
+		arg2, err = ec.unmarshalNNewUser2githubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐNewUser(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -953,7 +953,7 @@ func (ec *executionContext) _Group_todos(ctx context.Context, field graphql.Coll
 	}
 	res := resTmp.([]*model.Todo)
 	fc.Result = res
-	return ec.marshalNTodo2ᚕᚖtestᚋgraphᚋmodelᚐTodoᚄ(ctx, field.Selections, res)
+	return ec.marshalNTodo2ᚕᚖgithubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐTodoᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Group_users(ctx context.Context, field graphql.CollectedField, obj *model.Group) (ret graphql.Marshaler) {
@@ -988,7 +988,7 @@ func (ec *executionContext) _Group_users(ctx context.Context, field graphql.Coll
 	}
 	res := resTmp.([]*model.User)
 	fc.Result = res
-	return ec.marshalNUser2ᚕᚖtestᚋgraphᚋmodelᚐUserᚄ(ctx, field.Selections, res)
+	return ec.marshalNUser2ᚕᚖgithubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐUserᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Mutation_createTodo(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -1030,7 +1030,7 @@ func (ec *executionContext) _Mutation_createTodo(ctx context.Context, field grap
 	}
 	res := resTmp.(*model.Todo)
 	fc.Result = res
-	return ec.marshalNTodo2ᚖtestᚋgraphᚋmodelᚐTodo(ctx, field.Selections, res)
+	return ec.marshalNTodo2ᚖgithubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐTodo(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Mutation_createUser(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -1072,7 +1072,7 @@ func (ec *executionContext) _Mutation_createUser(ctx context.Context, field grap
 	}
 	res := resTmp.(*model.User)
 	fc.Result = res
-	return ec.marshalNUser2ᚖtestᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
+	return ec.marshalNUser2ᚖgithubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Mutation_createGroup(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -1114,7 +1114,7 @@ func (ec *executionContext) _Mutation_createGroup(ctx context.Context, field gra
 	}
 	res := resTmp.(*model.Group)
 	fc.Result = res
-	return ec.marshalNGroup2ᚖtestᚋgraphᚋmodelᚐGroup(ctx, field.Selections, res)
+	return ec.marshalNGroup2ᚖgithubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐGroup(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Mutation_login(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -1233,7 +1233,7 @@ func (ec *executionContext) _Query_todos(ctx context.Context, field graphql.Coll
 	}
 	res := resTmp.([]*model.Todo)
 	fc.Result = res
-	return ec.marshalNTodo2ᚕᚖtestᚋgraphᚋmodelᚐTodoᚄ(ctx, field.Selections, res)
+	return ec.marshalNTodo2ᚕᚖgithubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐTodoᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_todosByID(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -1275,7 +1275,7 @@ func (ec *executionContext) _Query_todosByID(ctx context.Context, field graphql.
 	}
 	res := resTmp.([]*model.Todo)
 	fc.Result = res
-	return ec.marshalNTodo2ᚕᚖtestᚋgraphᚋmodelᚐTodoᚄ(ctx, field.Selections, res)
+	return ec.marshalNTodo2ᚕᚖgithubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐTodoᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_users(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -1310,7 +1310,7 @@ func (ec *executionContext) _Query_users(ctx context.Context, field graphql.Coll
 	}
 	res := resTmp.([]*model.User)
 	fc.Result = res
-	return ec.marshalNUser2ᚕᚖtestᚋgraphᚋmodelᚐUserᚄ(ctx, field.Selections, res)
+	return ec.marshalNUser2ᚕᚖgithubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐUserᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_usersByID(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -1352,7 +1352,7 @@ func (ec *executionContext) _Query_usersByID(ctx context.Context, field graphql.
 	}
 	res := resTmp.([]*model.User)
 	fc.Result = res
-	return ec.marshalNUser2ᚕᚖtestᚋgraphᚋmodelᚐUserᚄ(ctx, field.Selections, res)
+	return ec.marshalNUser2ᚕᚖgithubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐUserᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_groups(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -1387,7 +1387,7 @@ func (ec *executionContext) _Query_groups(ctx context.Context, field graphql.Col
 	}
 	res := resTmp.([]*model.Group)
 	fc.Result = res
-	return ec.marshalNGroup2ᚕᚖtestᚋgraphᚋmodelᚐGroupᚄ(ctx, field.Selections, res)
+	return ec.marshalNGroup2ᚕᚖgithubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐGroupᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_groupByID(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -1429,7 +1429,7 @@ func (ec *executionContext) _Query_groupByID(ctx context.Context, field graphql.
 	}
 	res := resTmp.([]*model.Group)
 	fc.Result = res
-	return ec.marshalNGroup2ᚕᚖtestᚋgraphᚋmodelᚐGroupᚄ(ctx, field.Selections, res)
+	return ec.marshalNGroup2ᚕᚖgithubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐGroupᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query___type(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -1542,7 +1542,7 @@ func (ec *executionContext) _Subscription_todos(ctx context.Context, field graph
 			w.Write([]byte{'{'})
 			graphql.MarshalString(field.Alias).MarshalGQL(w)
 			w.Write([]byte{':'})
-			ec.marshalNTodo2ᚕᚖtestᚋgraphᚋmodelᚐTodoᚄ(ctx, field.Selections, res).MarshalGQL(w)
+			ec.marshalNTodo2ᚕᚖgithubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐTodoᚄ(ctx, field.Selections, res).MarshalGQL(w)
 			w.Write([]byte{'}'})
 		})
 	}
@@ -1594,7 +1594,7 @@ func (ec *executionContext) _Subscription_todoID(ctx context.Context, field grap
 			w.Write([]byte{'{'})
 			graphql.MarshalString(field.Alias).MarshalGQL(w)
 			w.Write([]byte{':'})
-			ec.marshalNTodo2ᚖtestᚋgraphᚋmodelᚐTodo(ctx, field.Selections, res).MarshalGQL(w)
+			ec.marshalNTodo2ᚖgithubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐTodo(ctx, field.Selections, res).MarshalGQL(w)
 			w.Write([]byte{'}'})
 		})
 	}
@@ -1639,7 +1639,7 @@ func (ec *executionContext) _Subscription_users(ctx context.Context, field graph
 			w.Write([]byte{'{'})
 			graphql.MarshalString(field.Alias).MarshalGQL(w)
 			w.Write([]byte{':'})
-			ec.marshalNUser2ᚕᚖtestᚋgraphᚋmodelᚐUserᚄ(ctx, field.Selections, res).MarshalGQL(w)
+			ec.marshalNUser2ᚕᚖgithubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐUserᚄ(ctx, field.Selections, res).MarshalGQL(w)
 			w.Write([]byte{'}'})
 		})
 	}
@@ -1691,7 +1691,7 @@ func (ec *executionContext) _Subscription_userID(ctx context.Context, field grap
 			w.Write([]byte{'{'})
 			graphql.MarshalString(field.Alias).MarshalGQL(w)
 			w.Write([]byte{':'})
-			ec.marshalNUser2ᚖtestᚋgraphᚋmodelᚐUser(ctx, field.Selections, res).MarshalGQL(w)
+			ec.marshalNUser2ᚖgithubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐUser(ctx, field.Selections, res).MarshalGQL(w)
 			w.Write([]byte{'}'})
 		})
 	}
@@ -1736,7 +1736,7 @@ func (ec *executionContext) _Subscription_groups(ctx context.Context, field grap
 			w.Write([]byte{'{'})
 			graphql.MarshalString(field.Alias).MarshalGQL(w)
 			w.Write([]byte{':'})
-			ec.marshalNGroup2ᚕᚖtestᚋgraphᚋmodelᚐGroupᚄ(ctx, field.Selections, res).MarshalGQL(w)
+			ec.marshalNGroup2ᚕᚖgithubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐGroupᚄ(ctx, field.Selections, res).MarshalGQL(w)
 			w.Write([]byte{'}'})
 		})
 	}
@@ -1788,7 +1788,7 @@ func (ec *executionContext) _Subscription_groupID(ctx context.Context, field gra
 			w.Write([]byte{'{'})
 			graphql.MarshalString(field.Alias).MarshalGQL(w)
 			w.Write([]byte{':'})
-			ec.marshalNGroup2ᚖtestᚋgraphᚋmodelᚐGroup(ctx, field.Selections, res).MarshalGQL(w)
+			ec.marshalNGroup2ᚖgithubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐGroup(ctx, field.Selections, res).MarshalGQL(w)
 			w.Write([]byte{'}'})
 		})
 	}
@@ -2036,7 +2036,7 @@ func (ec *executionContext) _User_todos(ctx context.Context, field graphql.Colle
 	}
 	res := resTmp.([]*model.Todo)
 	fc.Result = res
-	return ec.marshalNTodo2ᚕᚖtestᚋgraphᚋmodelᚐTodoᚄ(ctx, field.Selections, res)
+	return ec.marshalNTodo2ᚕᚖgithubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐTodoᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) ___Directive_name(ctx context.Context, field graphql.CollectedField, obj *introspection.Directive) (ret graphql.Marshaler) {
@@ -4153,11 +4153,11 @@ func (ec *executionContext) marshalNBoolean2bool(ctx context.Context, sel ast.Se
 	return res
 }
 
-func (ec *executionContext) marshalNGroup2testᚋgraphᚋmodelᚐGroup(ctx context.Context, sel ast.SelectionSet, v model.Group) graphql.Marshaler {
+func (ec *executionContext) marshalNGroup2githubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐGroup(ctx context.Context, sel ast.SelectionSet, v model.Group) graphql.Marshaler {
 	return ec._Group(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNGroup2ᚕᚖtestᚋgraphᚋmodelᚐGroupᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Group) graphql.Marshaler {
+func (ec *executionContext) marshalNGroup2ᚕᚖgithubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐGroupᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Group) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -4181,7 +4181,7 @@ func (ec *executionContext) marshalNGroup2ᚕᚖtestᚋgraphᚋmodelᚐGroupᚄ(
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNGroup2ᚖtestᚋgraphᚋmodelᚐGroup(ctx, sel, v[i])
+			ret[i] = ec.marshalNGroup2ᚖgithubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐGroup(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -4201,7 +4201,7 @@ func (ec *executionContext) marshalNGroup2ᚕᚖtestᚋgraphᚋmodelᚐGroupᚄ(
 	return ret
 }
 
-func (ec *executionContext) marshalNGroup2ᚖtestᚋgraphᚋmodelᚐGroup(ctx context.Context, sel ast.SelectionSet, v *model.Group) graphql.Marshaler {
+func (ec *executionContext) marshalNGroup2ᚖgithubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐGroup(ctx context.Context, sel ast.SelectionSet, v *model.Group) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
@@ -4258,17 +4258,17 @@ func (ec *executionContext) marshalNID2ᚕstringᚄ(ctx context.Context, sel ast
 	return ret
 }
 
-func (ec *executionContext) unmarshalNNewGroup2testᚋgraphᚋmodelᚐNewGroup(ctx context.Context, v interface{}) (model.NewGroup, error) {
+func (ec *executionContext) unmarshalNNewGroup2githubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐNewGroup(ctx context.Context, v interface{}) (model.NewGroup, error) {
 	res, err := ec.unmarshalInputNewGroup(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNNewTodo2testᚋgraphᚋmodelᚐNewTodo(ctx context.Context, v interface{}) (model.NewTodo, error) {
+func (ec *executionContext) unmarshalNNewTodo2githubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐNewTodo(ctx context.Context, v interface{}) (model.NewTodo, error) {
 	res, err := ec.unmarshalInputNewTodo(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNNewUser2testᚋgraphᚋmodelᚐNewUser(ctx context.Context, v interface{}) (model.NewUser, error) {
+func (ec *executionContext) unmarshalNNewUser2githubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐNewUser(ctx context.Context, v interface{}) (model.NewUser, error) {
 	res, err := ec.unmarshalInputNewUser(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
@@ -4288,11 +4288,11 @@ func (ec *executionContext) marshalNString2string(ctx context.Context, sel ast.S
 	return res
 }
 
-func (ec *executionContext) marshalNTodo2testᚋgraphᚋmodelᚐTodo(ctx context.Context, sel ast.SelectionSet, v model.Todo) graphql.Marshaler {
+func (ec *executionContext) marshalNTodo2githubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐTodo(ctx context.Context, sel ast.SelectionSet, v model.Todo) graphql.Marshaler {
 	return ec._Todo(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNTodo2ᚕᚖtestᚋgraphᚋmodelᚐTodoᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Todo) graphql.Marshaler {
+func (ec *executionContext) marshalNTodo2ᚕᚖgithubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐTodoᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Todo) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -4316,7 +4316,7 @@ func (ec *executionContext) marshalNTodo2ᚕᚖtestᚋgraphᚋmodelᚐTodoᚄ(ct
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNTodo2ᚖtestᚋgraphᚋmodelᚐTodo(ctx, sel, v[i])
+			ret[i] = ec.marshalNTodo2ᚖgithubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐTodo(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -4336,7 +4336,7 @@ func (ec *executionContext) marshalNTodo2ᚕᚖtestᚋgraphᚋmodelᚐTodoᚄ(ct
 	return ret
 }
 
-func (ec *executionContext) marshalNTodo2ᚖtestᚋgraphᚋmodelᚐTodo(ctx context.Context, sel ast.SelectionSet, v *model.Todo) graphql.Marshaler {
+func (ec *executionContext) marshalNTodo2ᚖgithubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐTodo(ctx context.Context, sel ast.SelectionSet, v *model.Todo) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
@@ -4346,11 +4346,11 @@ func (ec *executionContext) marshalNTodo2ᚖtestᚋgraphᚋmodelᚐTodo(ctx cont
 	return ec._Todo(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNUser2testᚋgraphᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v model.User) graphql.Marshaler {
+func (ec *executionContext) marshalNUser2githubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v model.User) graphql.Marshaler {
 	return ec._User(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNUser2ᚕᚖtestᚋgraphᚋmodelᚐUserᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.User) graphql.Marshaler {
+func (ec *executionContext) marshalNUser2ᚕᚖgithubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐUserᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.User) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -4374,7 +4374,7 @@ func (ec *executionContext) marshalNUser2ᚕᚖtestᚋgraphᚋmodelᚐUserᚄ(ct
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNUser2ᚖtestᚋgraphᚋmodelᚐUser(ctx, sel, v[i])
+			ret[i] = ec.marshalNUser2ᚖgithubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐUser(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -4394,7 +4394,7 @@ func (ec *executionContext) marshalNUser2ᚕᚖtestᚋgraphᚋmodelᚐUserᚄ(ct
 	return ret
 }
 
-func (ec *executionContext) marshalNUser2ᚖtestᚋgraphᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v *model.User) graphql.Marshaler {
+func (ec *executionContext) marshalNUser2ᚖgithubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v *model.User) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")

@@ -6,9 +6,12 @@ package graph
 import (
 	"context"
 	"fmt"
-	"github.com/google/uuid"
+	"github.com/cstevenson98/todo-gql/server/graph/auth"
+	"github.com/cstevenson98/todo-gql/server/pkg/token"
+
 	"github.com/cstevenson98/todo-gql/server/graph/generated"
 	"github.com/cstevenson98/todo-gql/server/graph/model"
+	"github.com/google/uuid"
 )
 
 func (r *mutationResolver) CreateTodo(ctx context.Context, userOrGroupID string, input model.NewTodo) (*model.Todo, error) {
@@ -63,11 +66,33 @@ func (r *mutationResolver) CreateGroup(ctx context.Context, input model.NewGroup
 }
 
 func (r *mutationResolver) Login(ctx context.Context, email string, password string) (string, error) {
-	return "", nil
+	userToAuth := auth.ForContext(ctx)
+
+	//actualUser, err := r.GetUsers([]string{userToAuth.ID})
+	//if err != nil {
+	//	return "", err
+	//}
+
+	if userToAuth != nil {
+		return "user id: " + userToAuth.ID, nil
+	} else {
+		return "", nil
+	}
+
 }
 
 func (r *mutationResolver) Signup(ctx context.Context, email string, password string, input model.NewUser) (string, error) {
-	return "", nil
+	newUser, err := r.NewUser(email, password, input)
+	if err != nil {
+		return "", err
+	}
+
+	token, err := token.GenerateToken(newUser.Name, newUser.ID)
+	if err != nil {
+		return "", err
+	}
+
+	return token, nil
 }
 
 func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
