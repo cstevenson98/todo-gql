@@ -2,15 +2,6 @@
 #
 # https://gqlgen.com/getting-started/
 
-type Query {
-  todos: [Todo!]!
-  todosByID(input: [ID!]!): [Todo!]!
-  users: [User!]!
-  usersByID(input: [ID!]!): [User!]!
-  groups: [Group!]!
-  groupByID(input: [ID!]!): [Group!]!
-}
-
 type Todo {
   id: ID!
   title: String!
@@ -22,6 +13,11 @@ type User {
   id: ID!
   name: String!
   todos: [Todo!]!
+}
+
+type AccountInfo {
+  name: String!
+  email: String!
 }
 
 type Group {
@@ -46,21 +42,29 @@ input NewGroup {
   description: String!
 }
 
+type Query {
+  todos: [Todo!]!
+  groups: [Group!]!
+  account: AccountInfo!
+}
+
 type Mutation {
-  createTodo(userOrGroupID: ID!, input: NewTodo!): Todo!
-  createUser(email: String!, password: String!, input: NewUser!): User!
+  createTodo(input: NewTodo!): Todo!
+
   createGroup(input: NewGroup!): Group!
+  createGroupTodo(input: NewTodo!): Todo!
+
   login(email: String!, password: String!): String!
   signup(email: String!, password: String!, input: NewUser!): String!
 }
-
-type Subscription {
-  todos: [Todo!]!
-  todoID(id: String!): Todo!
-
-  users: [User!]!
-  userID(id: String!): User!
-
-  groups: [Group!]!
-  groupID(id: String!): Group!
-}
+#
+#type Subscription {
+#  todos: [Todo!]!
+#  todoID(id: String!): Todo!
+#
+#  users: [User!]!
+#  userID(id: String!): User!
+#
+#  groups: [Group!]!
+#  groupID(id: String!): Group!
+#}
