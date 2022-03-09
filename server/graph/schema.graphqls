@@ -48,23 +48,16 @@ type Query {
   account: AccountInfo!
 }
 
+type AuthToken {
+  token: String!
+}
+
 type Mutation {
   createTodo(input: NewTodo!): Todo!
 
   createGroup(input: NewGroup!): Group!
   createGroupTodo(input: NewTodo!): Todo!
 
-  login(email: String!, password: String!): String!
-  signup(email: String!, password: String!, input: NewUser!): String!
+  login(email: String!, password: String!): AuthToken!
+  signup(email: String!, password: String!, input: NewUser!): AuthToken!
 }
-#
-#type Subscription {
-#  todos: [Todo!]!
-#  todoID(id: String!): Todo!
-#
-#  users: [User!]!
-#  userID(id: String!): User!
-#
-#  groups: [Group!]!
-#  groupID(id: String!): Group!
-#}

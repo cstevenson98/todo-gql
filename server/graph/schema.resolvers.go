@@ -36,7 +36,7 @@ func (r *mutationResolver) CreateGroupTodo(ctx context.Context, input model.NewT
 	panic(fmt.Errorf("not implemented"))
 }
 
-func (r *mutationResolver) Login(ctx context.Context, email string, password string) (string, error) {
+func (r *mutationResolver) Login(ctx context.Context, email string, password string) (*model.AuthToken, error) {
 	userToAuth := auth.ForContext(ctx)
 
 	//actualUser, err := r.GetUsers([]string{userToAuth.ID})
@@ -45,24 +45,24 @@ func (r *mutationResolver) Login(ctx context.Context, email string, password str
 	//}
 
 	if userToAuth != nil {
-		return "user id: " + userToAuth.ID, nil
+		return &model.AuthToken{Token: "user id: " + userToAuth.ID}, nil
 	} else {
-		return "", nil
+		return &model.AuthToken{}, nil
 	}
 }
 
-func (r *mutationResolver) Signup(ctx context.Context, email string, password string, input model.NewUser) (string, error) {
+func (r *mutationResolver) Signup(ctx context.Context, email string, password string, input model.NewUser) (*model.AuthToken, error) {
 	newUser, err := r.NewUser(email, password, input)
 	if err != nil {
-		return "", err
+		return &model.AuthToken{}, err
 	}
 
 	token, err := token.GenerateToken(newUser.Name, newUser.ID)
 	if err != nil {
-		return "", err
+		return &model.AuthToken{}, err
 	}
 
-	return token, nil
+	return &model.AuthToken{Token: token}, nil
 }
 
 func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {

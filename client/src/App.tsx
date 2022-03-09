@@ -1,20 +1,36 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ButtonAppBar from "./components/ButtonAppBar";
-import UsersView from "./components/UsersView";
-import Login from "./components/Login";
+// import UsersView from "./components/UsersView";
+// import Login from "./components/Login";
+import UserProvider, { UserContextType, UserContext } from "./Store/UserStore";
+import { Container, Typography } from "@mui/material";
 
-function App() {
-  const [isLogin, setIsLogin] = useState(false);
+function Main() {
+  const { authToken, setAuthToken } = useContext(
+    UserContext
+  ) as UserContextType;
+
+  useEffect(() => {
+    setAuthToken({ token: "Helllllo" });
+  }, []);
 
   return (
-    <>
-      <ButtonAppBar />
-      {isLogin ? (
-        <Login isLogin={isLogin} setLogin={setIsLogin} />
-      ) : (
-        <UsersView />
-      )}
-    </>
+    <Container>
+      <Typography>{authToken.token}</Typography>
+    </Container>
+  );
+}
+
+function App() {
+  // const [hasLogged, setHasLogged] = useState(false);
+
+  return (
+    <UserProvider>
+      <>
+        <ButtonAppBar />
+        <Main />
+      </>
+    </UserProvider>
   );
 }
 

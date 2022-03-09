@@ -9,11 +9,12 @@ import {
 import React, { useEffect, useState } from "react";
 import { useMutation } from "urql";
 
-interface LoginProps {
+interface SignupProps {
+  isLogin: Boolean;
   setLogin: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function Login({ setLogin }: LoginProps) {
+export default function Signup({ isLogin, setLogin }: SignupProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 

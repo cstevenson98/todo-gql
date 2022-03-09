@@ -1,6 +1,0 @@
-subscription SubTodos {
-  todos {
-    title
-    description
-  }
-}

@@ -48,6 +48,10 @@ type ComplexityRoot struct {
 		Name  func(childComplexity int) int
 	}
 
+	AuthToken struct {
+		Token func(childComplexity int) int
+	}
+
 	Group struct {
 		Description func(childComplexity int) int
 		ID          func(childComplexity int) int
@@ -88,8 +92,8 @@ type MutationResolver interface {
 	CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error)
 	CreateGroup(ctx context.Context, input model.NewGroup) (*model.Group, error)
 	CreateGroupTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error)
-	Login(ctx context.Context, email string, password string) (string, error)
-	Signup(ctx context.Context, email string, password string, input model.NewUser) (string, error)
+	Login(ctx context.Context, email string, password string) (*model.AuthToken, error)
+	Signup(ctx context.Context, email string, password string, input model.NewUser) (*model.AuthToken, error)
 }
 type QueryResolver interface {
 	Todos(ctx context.Context) ([]*model.Todo, error)
@@ -125,6 +129,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.AccountInfo.Name(childComplexity), true
+
+	case "AuthToken.token":
+		if e.complexity.AuthToken.Token == nil {
+			break
+		}
+
+		return e.complexity.AuthToken.Token(childComplexity), true
 
 	case "Group.description":
 		if e.complexity.Group.Description == nil {
@@ -405,14 +416,18 @@ type Query {
   account: AccountInfo!
 }
 
+type AuthToken {
+  token: String!
+}
+
 type Mutation {
   createTodo(input: NewTodo!): Todo!
 
   createGroup(input: NewGroup!): Group!
   createGroupTodo(input: NewTodo!): Todo!
 
-  login(email: String!, password: String!): String!
-  signup(email: String!, password: String!, input: NewUser!): String!
+  login(email: String!, password: String!): AuthToken!
+  signup(email: String!, password: String!, input: NewUser!): AuthToken!
 }
 #
 #type Subscription {
@@ -641,6 +656,41 @@ func (ec *executionContext) _AccountInfo_email(ctx context.Context, field graphq
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.Email, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _AuthToken_token(ctx context.Context, field graphql.CollectedField, obj *model.AuthToken) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "AuthToken",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Token, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -995,9 +1045,9 @@ func (ec *executionContext) _Mutation_login(ctx context.Context, field graphql.C
 		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(*model.AuthToken)
 	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
+	return ec.marshalNAuthToken2ᚖgithubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐAuthToken(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Mutation_signup(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -1037,9 +1087,9 @@ func (ec *executionContext) _Mutation_signup(ctx context.Context, field graphql.
 		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(*model.AuthToken)
 	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
+	return ec.marshalNAuthToken2ᚖgithubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐAuthToken(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_todos(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -2719,6 +2769,37 @@ func (ec *executionContext) _AccountInfo(ctx context.Context, sel ast.SelectionS
 	return out
 }
 
+var authTokenImplementors = []string{"AuthToken"}
+
+func (ec *executionContext) _AuthToken(ctx context.Context, sel ast.SelectionSet, obj *model.AuthToken) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, authTokenImplementors)
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("AuthToken")
+		case "token":
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._AuthToken_token(ctx, field, obj)
+			}
+
+			out.Values[i] = innerFunc(ctx)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
 var groupImplementors = []string{"Group"}
 
 func (ec *executionContext) _Group(ctx context.Context, sel ast.SelectionSet, obj *model.Group) graphql.Marshaler {
@@ -3516,6 +3597,20 @@ func (ec *executionContext) marshalNAccountInfo2ᚖgithubᚗcomᚋcstevenson98�
 		return graphql.Null
 	}
 	return ec._AccountInfo(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNAuthToken2githubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐAuthToken(ctx context.Context, sel ast.SelectionSet, v model.AuthToken) graphql.Marshaler {
+	return ec._AuthToken(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNAuthToken2ᚖgithubᚗcomᚋcstevenson98ᚋtodoᚑgqlᚋserverᚋgraphᚋmodelᚐAuthToken(ctx context.Context, sel ast.SelectionSet, v *model.AuthToken) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._AuthToken(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalNBoolean2bool(ctx context.Context, v interface{}) (bool, error) {

@@ -15,6 +15,17 @@ export type Scalars = {
   Float: number;
 };
 
+export type AccountInfo = {
+  __typename?: 'AccountInfo';
+  email: Scalars['String'];
+  name: Scalars['String'];
+};
+
+export type AuthToken = {
+  __typename?: 'AuthToken';
+  token: Scalars['String'];
+};
+
 export type Group = {
   __typename?: 'Group';
   description: Scalars['String'];
@@ -27,9 +38,10 @@ export type Group = {
 export type Mutation = {
   __typename?: 'Mutation';
   createGroup: Group;
+  createGroupTodo: Todo;
   createTodo: Todo;
-  createUser: User;
-  loginOrSignup: Token;
+  login: AuthToken;
+  signup: AuthToken;
 };
 
 
@@ -38,22 +50,26 @@ export type MutationCreateGroupArgs = {
 };
 
 
-export type MutationCreateTodoArgs = {
+export type MutationCreateGroupTodoArgs = {
   input: NewTodo;
-  userOrGroupID: Scalars['ID'];
 };
 
 
-export type MutationCreateUserArgs = {
+export type MutationCreateTodoArgs = {
+  input: NewTodo;
+};
+
+
+export type MutationLoginArgs = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+};
+
+
+export type MutationSignupArgs = {
   email: Scalars['String'];
   input: NewUser;
   password: Scalars['String'];
-};
-
-
-export type MutationLoginOrSignupArgs = {
-  password: Scalars['String'];
-  username: Scalars['String'];
 };
 
 export type NewGroup = {
@@ -72,52 +88,9 @@ export type NewUser = {
 
 export type Query = {
   __typename?: 'Query';
-  groupByID: Array<Group>;
+  account: AccountInfo;
   groups: Array<Group>;
   todos: Array<Todo>;
-  todosByID: Array<Todo>;
-  users: Array<User>;
-  usersByID: Array<User>;
-};
-
-
-export type QueryGroupByIdArgs = {
-  input: Array<Scalars['ID']>;
-};
-
-
-export type QueryTodosByIdArgs = {
-  input: Array<Scalars['ID']>;
-};
-
-
-export type QueryUsersByIdArgs = {
-  input: Array<Scalars['ID']>;
-};
-
-export type Subscription = {
-  __typename?: 'Subscription';
-  groupID: Group;
-  groups: Array<Group>;
-  todoID: Todo;
-  todos: Array<Todo>;
-  userID: User;
-  users: Array<User>;
-};
-
-
-export type SubscriptionGroupIdArgs = {
-  id: Scalars['String'];
-};
-
-
-export type SubscriptionTodoIdArgs = {
-  id: Scalars['String'];
-};
-
-
-export type SubscriptionUserIdArgs = {
-  id: Scalars['String'];
 };
 
 export type Todo = {
@@ -126,11 +99,6 @@ export type Todo = {
   done: Scalars['Boolean'];
   id: Scalars['ID'];
   title: Scalars['String'];
-};
-
-export type Token = {
-  __typename?: 'Token';
-  token: Scalars['String'];
 };
 
 export type User = {
@@ -145,18 +113,14 @@ export type GetTodosQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetTodosQuery = { __typename?: 'Query', todos: Array<{ __typename?: 'Todo', id: string, title: string, description: string, done: boolean }> };
 
-export type LoginOrSignupMutationVariables = Exact<{
-  username: Scalars['String'];
+export type SignupMutationVariables = Exact<{
+  name: Scalars['String'];
+  email: Scalars['String'];
   password: Scalars['String'];
 }>;
 
 
-export type LoginOrSignupMutation = { __typename?: 'Mutation', loginOrSignup: { __typename?: 'Token', token: string } };
-
-export type SubTodosSubscriptionVariables = Exact<{ [key: string]: never; }>;
-
-
-export type SubTodosSubscription = { __typename?: 'Subscription', todos: Array<{ __typename?: 'Todo', title: string, description: string }> };
+export type SignupMutation = { __typename?: 'Mutation', signup: { __typename?: 'AuthToken', token: string } };
 
 
 export const GetTodosDocument = gql`
@@ -173,26 +137,14 @@ export const GetTodosDocument = gql`
 export function useGetTodosQuery(options?: Omit<Urql.UseQueryArgs<GetTodosQueryVariables>, 'query'>) {
   return Urql.useQuery<GetTodosQuery>({ query: GetTodosDocument, ...options });
 };
-export const LoginOrSignupDocument = gql`
-    mutation loginOrSignup($username: String!, $password: String!) {
-  loginOrSignup(username: $username, password: $password) {
+export const SignupDocument = gql`
+    mutation signup($name: String!, $email: String!, $password: String!) {
+  signup(email: $email, password: $password, input: {name: $name}) {
     token
   }
 }
     `;
 
-export function useLoginOrSignupMutation() {
-  return Urql.useMutation<LoginOrSignupMutation, LoginOrSignupMutationVariables>(LoginOrSignupDocument);
-};
-export const SubTodosDocument = gql`
-    subscription SubTodos {
-  todos {
-    title
-    description
-  }
-}
-    `;
-
-export function useSubTodosSubscription<TData = SubTodosSubscription>(options: Omit<Urql.UseSubscriptionArgs<SubTodosSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<SubTodosSubscription, TData>) {
-  return Urql.useSubscription<SubTodosSubscription, TData, SubTodosSubscriptionVariables>({ query: SubTodosDocument, ...options }, handler);
+export function useSignupMutation() {
+  return Urql.useMutation<SignupMutation, SignupMutationVariables>(SignupDocument);
 };

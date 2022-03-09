@@ -1,4 +1,4 @@
-import { useSubTodosSubscription } from "../generated";
+import { useGetTodosQuery } from "../generated";
 import Stack from "@mui/material/Stack";
 import Card from "@mui/material/Card";
 import { CardContent, Typography } from "@mui/material";
@@ -9,7 +9,7 @@ interface UserID {
 }
 
 export default function TodoListTab({ id }: UserID) {
-  const [result] = useSubTodosSubscription();
+  const [result] = useGetTodosQuery();
 
   return (
     <Stack spacing={2}>
