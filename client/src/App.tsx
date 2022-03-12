@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useMemo } from "react";
 import SessionProvider, {
   SessionContext,
   SessionContextType,
@@ -6,15 +6,29 @@ import SessionProvider, {
 import ButtonAppBar from "./components/ButtonAppBar";
 import UsersView from "./components/UsersView";
 import LoginOrSignup from "./components/LoginOrSignup";
+import Client from "./gql-client/client";
+import { Provider } from "urql";
 
 function Main() {
   const { isLogged } = useContext(SessionContext) as SessionContextType;
 
-  if (isLogged) {
-    return <UsersView />;
+  const client = useMemo(() => {
+    if (isLogged === null) {
+      return null;
+    }
+
+    return Client();
+  }, [isLogged]);
+
+  if (!client) {
+    return null;
   }
 
-  return <LoginOrSignup />;
+  return (
+    <Provider value={client}>
+      {isLogged ? <UsersView /> : <LoginOrSignup />}
+    </Provider>
+  );
 }
 
 function App() {

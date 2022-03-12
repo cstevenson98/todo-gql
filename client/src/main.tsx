@@ -4,14 +4,9 @@ import App from "./App";
 
 import "./index.css";
 
-import { Provider } from "urql";
-import Client from "./gql-client/client";
-
 ReactDOM.render(
-  <Provider value={Client}>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  </Provider>,
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
   document.getElementById("root")
 );

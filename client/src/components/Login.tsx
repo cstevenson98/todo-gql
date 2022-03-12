@@ -20,25 +20,23 @@ export default function Login() {
   }, [email, password]);
 
   return (
-    <Container maxWidth="sm">
-      <Stack spacing={2}>
-        <TextField
-          id="filled-basic"
-          label="Email"
-          variant="filled"
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <TextField
-          id="filled-basic"
-          label="Password"
-          type="password"
-          variant="filled"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <Button variant="contained" onClick={() => {}}>
-          Log in
-        </Button>
-      </Stack>
-    </Container>
+    <Stack spacing={2}>
+      <TextField
+        id="email"
+        label="Email"
+        variant="filled"
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <TextField
+        id="password"
+        label="Password"
+        type="password"
+        variant="filled"
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <Button variant="contained" onClick={() => {}}>
+        Log in
+      </Button>
+    </Stack>
   );
 }
