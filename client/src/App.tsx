@@ -4,6 +4,7 @@ import ButtonAppBar from "./components/ButtonAppBar";
 // import Login from "./components/Login";
 import UserProvider, { UserContextType, UserContext } from "./Store/UserStore";
 import { Container, Typography } from "@mui/material";
+import Signup from "./components/Signup";
 
 function Main() {
   const { authToken, setAuthToken } = useContext(
@@ -28,7 +29,7 @@ function App() {
     <UserProvider>
       <>
         <ButtonAppBar />
-        <Main />
+        <Signup />
       </>
     </UserProvider>
   );

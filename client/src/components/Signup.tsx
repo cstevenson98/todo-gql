@@ -8,13 +8,12 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useMutation } from "urql";
+import { useSignupMutation } from "../generated";
 
-interface SignupProps {
-  isLogin: Boolean;
-  setLogin: React.Dispatch<React.SetStateAction<boolean>>;
-}
+export default function Signup() {
+  const { result, executeMutation } = useSignupMutation();
 
-export default function Signup({ isLogin, setLogin }: SignupProps) {
+  const [fullName, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -43,7 +42,7 @@ export default function Signup({ isLogin, setLogin }: SignupProps) {
           variant="filled"
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button />
+        <Button>Sign up</Button>
       </Stack>
     </Container>
   );
