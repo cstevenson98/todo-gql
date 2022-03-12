@@ -1,15 +1,6 @@
-import {
-  Box,
-  Button,
-  Container,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Button, Container, Stack, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useMutation } from "urql";
 import { useSignupMutation } from "../generated";
-import { authTokenType } from "../main";
 
 export default function Signup() {
   const [result, executeMutation] = useSignupMutation();
@@ -31,11 +22,6 @@ export default function Signup() {
 
   return (
     <Container maxWidth="sm">
-      <Box sx={{ margin: 5 }}>
-        <Typography variant="h4" align="center">
-          Please login
-        </Typography>
-      </Box>
       <Stack spacing={2}>
         <TextField
           id="filled-basic"
@@ -56,7 +42,9 @@ export default function Signup() {
           variant="filled"
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button onClick={submit}>Sign up</Button>
+        <Button variant="contained" onClick={submit}>
+          Sign up
+        </Button>
       </Stack>
     </Container>
   );

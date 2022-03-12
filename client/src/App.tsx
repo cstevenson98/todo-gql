@@ -1,37 +1,30 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
+import SessionProvider, {
+  SessionContext,
+  SessionContextType,
+} from "./Store/SessionStore";
 import ButtonAppBar from "./components/ButtonAppBar";
-// import UsersView from "./components/UsersView";
-// import Login from "./components/Login";
-import UserProvider, { UserContextType, UserContext } from "./Store/UserStore";
-import { Container, Typography } from "@mui/material";
-import Signup from "./components/Signup";
+import UsersView from "./components/UsersView";
+import LoginOrSignup from "./components/LoginOrSignup";
 
 function Main() {
-  const { authToken, setAuthToken } = useContext(
-    UserContext
-  ) as UserContextType;
+  const { isLogged } = useContext(SessionContext) as SessionContextType;
 
-  useEffect(() => {
-    setAuthToken({ token: "Helllllo" });
-  }, []);
+  if (isLogged) {
+    return <UsersView />;
+  }
 
-  return (
-    <Container>
-      <Typography>{authToken.token}</Typography>
-    </Container>
-  );
+  return <LoginOrSignup />;
 }
 
 function App() {
-  // const [hasLogged, setHasLogged] = useState(false);
-
   return (
-    <UserProvider>
+    <SessionProvider>
       <>
         <ButtonAppBar />
-        <Signup />
+        <Main />
       </>
-    </UserProvider>
+    </SessionProvider>
   );
 }
 
