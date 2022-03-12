@@ -26,27 +26,12 @@ export type AuthToken = {
   token: Scalars['String'];
 };
 
-export type Group = {
-  __typename?: 'Group';
-  description: Scalars['String'];
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  todos: Array<Todo>;
-  users: Array<User>;
-};
-
 export type Mutation = {
   __typename?: 'Mutation';
-  createGroup: Group;
   createGroupTodo: Todo;
   createTodo: Todo;
   login: AuthToken;
   signup: AuthToken;
-};
-
-
-export type MutationCreateGroupArgs = {
-  input: NewGroup;
 };
 
 
@@ -72,11 +57,6 @@ export type MutationSignupArgs = {
   password: Scalars['String'];
 };
 
-export type NewGroup = {
-  description: Scalars['String'];
-  name: Scalars['String'];
-};
-
 export type NewTodo = {
   description: Scalars['String'];
   title: Scalars['String'];
@@ -89,8 +69,7 @@ export type NewUser = {
 export type Query = {
   __typename?: 'Query';
   account: AccountInfo;
-  groups: Array<Group>;
-  todos: Array<Todo>;
+  mytodos: Array<Todo>;
 };
 
 export type Todo = {
@@ -111,7 +90,7 @@ export type User = {
 export type GetTodosQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetTodosQuery = { __typename?: 'Query', todos: Array<{ __typename?: 'Todo', id: string, title: string, description: string, done: boolean }> };
+export type GetTodosQuery = { __typename?: 'Query', mytodos: Array<{ __typename?: 'Todo', id: string, title: string, description: string, done: boolean }> };
 
 export type LoginMutationVariables = Exact<{
   email: Scalars['String'];
@@ -133,7 +112,7 @@ export type SignupMutation = { __typename?: 'Mutation', signup: { __typename?: '
 
 export const GetTodosDocument = gql`
     query GetTodos {
-  todos {
+  mytodos {
     id
     title
     description

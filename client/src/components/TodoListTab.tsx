@@ -4,16 +4,12 @@ import Card from "@mui/material/Card";
 import { CardContent, Typography } from "@mui/material";
 import React from "react";
 
-interface UserID {
-  id: String;
-}
-
-export default function TodoListTab({ id }: UserID) {
+export default function TodoListTab() {
   const [result] = useGetTodosQuery();
 
   return (
     <Stack spacing={2}>
-      {result.data?.todos.map((elem, index) => {
+      {result.data?.mytodos.map((elem, index) => {
         return (
           <Card key={index}>
             <CardContent>

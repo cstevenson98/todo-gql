@@ -37,19 +37,6 @@ type NewUser struct {
 	Name string `db:"name"`
 }
 
-type Group struct {
-	ID          string  `json:"id"`
-	Name        string  `json:"name"`
-	Description string  `json:"description"`
-	Todos       []*Todo `json:"todos"`
-	Users       []*User `json:"users"`
-}
-
-type NewGroup struct {
-	Name        string `json:"name"`
-	Description string `json:"description"`
-}
-
 type AccountInfo struct {
 	Name  string `json:"name"`
 	Email string `json:"email"`

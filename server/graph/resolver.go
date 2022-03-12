@@ -14,8 +14,6 @@ type Resolver struct {
 
 	TodoObservers  map[string]chan []*model.Todo
 	UserObservers  map[string]chan []*model.User
-	GroupObservers map[string]chan []*model.Group
-
 	UserAuthTokens map[string]string
 
 	mu sync.Mutex
@@ -75,18 +73,9 @@ func (r *Resolver) NewTodo(userOrGroupID string, input model.NewTodo) (*model.To
 		return nil, err
 	}
 
-	group, err := r.GetGroups([]string{userOrGroupID})
-	if err != nil {
-		return nil, err
-	}
-
 	var joinTableStmt string
 	if len(user) != 0 {
 		joinTableStmt = `INSERT INTO users_todos (todo_id, user_id) VALUES($1, $2)`
-	} else if len(group) != 0 {
-		joinTableStmt = `INSERT INTO groups_todos (todo_id, group_id) VALUES($1, $2)`
-	} else {
-		return nil, fmt.Errorf("no group or user with ID: %q", userOrGroupID)
 	}
 
 	tx, err := r.DB.Begin()
@@ -137,24 +126,6 @@ func (r *Resolver) NewUser(email, password string, input model.NewUser) (*model.
 	user.Name = input.Name
 
 	return &user, nil
-}
-
-// NewGroup creates a new GROUP
-func (r *Resolver) NewGroup(input model.NewGroup) (*model.Group, error) {
-	stmt := `INSERT INTO groups (id, name, description) VALUES($1, $2, $3)`
-
-	id := uuid.NewString()
-	var group model.Group
-
-	_, err := r.DB.Exec(stmt, id, input.Name, input.Description)
-	if err != nil {
-		return nil, err
-	}
-	group.ID = id
-	group.Name = input.Name
-	group.Description = input.Description
-
-	return &group, nil
 }
 
 // GetTodos returns all or subset of TODOS
@@ -292,86 +263,3 @@ func (r *Resolver) GetUserByEmailIfValid(email, password string) (*model.User, e
 	return out, nil
 }
 
-func (r *Resolver) GetGroupTodos(groupID string) ([]*model.Todo, error) {
-	todoQry := `SELECT id, title, description, done FROM todos_groups_view WHERE group_id = '` + groupID + `'`
-	todoRows, err := r.DB.Query(todoQry)
-	if err != nil {
-		return nil, err
-	}
-
-	var todos []*model.Todo
-	for todoRows.Next() {
-		todo := &model.Todo{}
-		err = todoRows.Scan(&todo.ID, &todo.Title, &todo.Description, &todo.Done)
-		todos = append(todos, todo)
-	}
-
-	if err = todoRows.Err(); err != nil {
-		return nil, err
-	}
-	return todos, nil
-}
-
-func (r *Resolver) GetGroupUsers(groupID string) ([]*model.User, error) {
-	userQry := `SELECT id, name, done FROM users_groups_view where group_id = '` + groupID + `'`
-	userRows, err := r.DB.Query(userQry)
-	if err != nil {
-		return nil, err
-	}
-
-	var users []*model.User
-	for userRows.Next() {
-		user := &model.User{}
-		err = userRows.Scan(&user.ID, &user.Name)
-		users = append(users, user)
-	}
-
-	if err = userRows.Err(); err != nil {
-		return nil, err
-	}
-	return users, nil
-}
-
-// GetUsers returns all or subset of USERS
-func (r *Resolver) GetGroups(IDs []string) ([]*model.Group, error) {
-	qry := `SELECT id, name, description FROM groups`
-	rows, err := r.DB.Query(qry)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-
-	var groups []*model.Group
-	for rows.Next() {
-		group := &model.Group{}
-		err = rows.Scan(&group.ID, &group.Name, &group.Description)
-		if err != nil {
-			return nil, err
-		}
-
-		var idInList = false
-		for _, id := range IDs {
-			if id == group.ID {
-				idInList = true
-				break
-			}
-		}
-
-		if len(IDs) == 0 || idInList {
-			group.Todos, err = r.GetGroupTodos(group.ID)
-			if err != nil {
-				return nil, err
-			}
-
-			group.Users, err = r.GetGroupUsers(group.ID)
-
-			groups = append(groups, group)
-		}
-	}
-
-	if err = rows.Err(); err != nil {
-		return nil, err
-	}
-
-	return groups, nil
-}

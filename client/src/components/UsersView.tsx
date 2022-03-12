@@ -17,13 +17,11 @@ export default function UsersView() {
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="Item One" />
-          <Tab label="Item Two" />
-          <Tab label="Item Three" />
+          <Tab label="Personal" />
         </Tabs>
       </Box>
       <Box sx={{ marginTop: 5 }}>
-        <TodoListTab id={"Hello"} />
+        <TodoListTab />
       </Box>
     </Container>
   );

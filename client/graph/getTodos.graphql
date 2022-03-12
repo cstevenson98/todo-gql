@@ -1,5 +1,5 @@
 query GetTodos {
-  todos {
+  mytodos {
     id
     title
     description
