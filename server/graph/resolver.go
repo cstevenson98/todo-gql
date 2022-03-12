@@ -273,8 +273,8 @@ func (r *Resolver) GetUserByEmailIfValid(email, password string) (*model.User, e
 		return nil, err
 	}
 
-	hashedPass := bcrypt.CompareHashAndPassword(user.Password, []byte(password))
-	if hashedPass != nil { // ????????
+	passwordGood := bcrypt.CompareHashAndPassword(user.Password, []byte(password))
+	if passwordGood != nil {
 		return nil, fmt.Errorf("invalid email or password")
 	}
 

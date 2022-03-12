@@ -113,6 +113,14 @@ export type GetTodosQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetTodosQuery = { __typename?: 'Query', todos: Array<{ __typename?: 'Todo', id: string, title: string, description: string, done: boolean }> };
 
+export type LoginMutationVariables = Exact<{
+  email: Scalars['String'];
+  password: Scalars['String'];
+}>;
+
+
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'AuthToken', token: string } };
+
 export type SignupMutationVariables = Exact<{
   name: Scalars['String'];
   email: Scalars['String'];
@@ -136,6 +144,17 @@ export const GetTodosDocument = gql`
 
 export function useGetTodosQuery(options?: Omit<Urql.UseQueryArgs<GetTodosQueryVariables>, 'query'>) {
   return Urql.useQuery<GetTodosQuery>({ query: GetTodosDocument, ...options });
+};
+export const LoginDocument = gql`
+    mutation login($email: String!, $password: String!) {
+  login(email: $email, password: $password) {
+    token
+  }
+}
+    `;
+
+export function useLoginMutation() {
+  return Urql.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument);
 };
 export const SignupDocument = gql`
     mutation signup($name: String!, $email: String!, $password: String!) {
