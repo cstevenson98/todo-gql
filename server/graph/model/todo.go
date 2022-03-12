@@ -1,5 +1,9 @@
 package model
 
+type AuthToken struct {
+	Token string `json:"token"`
+}
+
 type Token struct {
 	Token string `json:"token"`
 }
@@ -17,9 +21,16 @@ type NewTodo struct {
 }
 
 type User struct {
-	ID             string  `db:"id"`
-	Name           string  `db:"name"`
-	Todos          []*Todo `db:"todos"`
+	ID    string  `db:"id"`
+	Name  string  `db:"name"`
+	Todos []*Todo `db:"todos"`
+}
+
+type InternalUser struct {
+	ID       string
+	Name     string
+	Email    string
+	Password []byte
 }
 
 type NewUser struct {

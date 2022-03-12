@@ -37,18 +37,18 @@ func (r *mutationResolver) CreateGroupTodo(ctx context.Context, input model.NewT
 }
 
 func (r *mutationResolver) Login(ctx context.Context, email string, password string) (*model.AuthToken, error) {
-	userToAuth := auth.ForContext(ctx)
-
-	//actualUser, err := r.GetUsers([]string{userToAuth.ID})
-	//if err != nil {
-	//	return "", err
-	//}
-
-	if userToAuth != nil {
-		return &model.AuthToken{Token: "user id: " + userToAuth.ID}, nil
-	} else {
-		return &model.AuthToken{}, nil
+	user, userErr := r.GetUserByEmailIfValid(email, password)
+	if userErr != nil {
+		return nil, userErr
 	}
+
+	token, err := token.GenerateToken(user.Name, user.ID)
+	if err != nil {
+		return &model.AuthToken{}, err
+	}
+
+	return &model.AuthToken{Token: token}, nil
+
 }
 
 func (r *mutationResolver) Signup(ctx context.Context, email string, password string, input model.NewUser) (*model.AuthToken, error) {

@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from "react";
+import React, { useContext, useEffect, useMemo } from "react";
 import SessionProvider, {
   SessionContext,
   SessionContextType,
@@ -8,6 +8,7 @@ import UsersView from "./components/UsersView";
 import LoginOrSignup from "./components/LoginOrSignup";
 import Client from "./gql-client/client";
 import { Provider } from "urql";
+import { dedentBlockStringLines } from "graphql/language/blockString";
 
 function Main() {
   const { isLogged } = useContext(SessionContext) as SessionContextType;
@@ -32,6 +33,10 @@ function Main() {
 }
 
 function App() {
+  useEffect(() => {
+    localStorage.removeItem("token");
+  }, []);
+
   return (
     <SessionProvider>
       <>

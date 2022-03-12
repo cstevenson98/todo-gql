@@ -257,6 +257,41 @@ func (r *Resolver) GetUsers(IDs []string) ([]*model.User, error) {
 	return users, nil
 }
 
+// GetUsers returns all or subset of USERS
+func (r *Resolver) GetUserByEmailIfValid(email, password string) (*model.User, error) {
+	qry := `SELECT * FROM users WHERE email = '` + email + `'`
+	row := r.DB.QueryRow(qry)
+
+	user := &model.InternalUser{}
+
+	err := row.Scan(&user.ID, &user.Name, &user.Email, &user.Password)
+	if err != nil {
+		return nil, err
+	}
+
+	if err = row.Err(); err != nil {
+		return nil, err
+	}
+
+	hashedPass := bcrypt.CompareHashAndPassword(user.Password, []byte(password))
+	if hashedPass != nil { // ????????
+		return nil, fmt.Errorf("invalid email or password")
+	}
+
+	todos, getTodosErr := r.GetUserTodos(user.ID)
+	if getTodosErr != nil {
+		return nil, getTodosErr
+	}
+
+	out := &model.User{
+		ID:    user.ID,
+		Name:  user.Name,
+		Todos: todos,
+	}
+
+	return out, nil
+}
+
 func (r *Resolver) GetGroupTodos(groupID string) ([]*model.Todo, error) {
 	todoQry := `SELECT id, title, description, done FROM todos_groups_view WHERE group_id = '` + groupID + `'`
 	todoRows, err := r.DB.Query(todoQry)
