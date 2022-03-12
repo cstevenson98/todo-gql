@@ -9,17 +9,25 @@ import {
 import React, { useEffect, useState } from "react";
 import { useMutation } from "urql";
 import { useSignupMutation } from "../generated";
+import { authTokenType } from "../main";
 
 export default function Signup() {
-  const { result, executeMutation } = useSignupMutation();
+  const [result, executeMutation] = useSignupMutation();
 
   const [fullName, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const submit = () => {
+    executeMutation({ name: fullName, email: email, password: password });
+  };
+
   useEffect(() => {
-    console.log(email, password);
-  }, [email, password]);
+    console.log(result?.data?.signup.token, result.error);
+    if (result?.data?.signup.token) {
+      localStorage.setItem("token", result?.data?.signup?.token as string);
+    }
+  }, [result]);
 
   return (
     <Container maxWidth="sm">
@@ -29,6 +37,12 @@ export default function Signup() {
         </Typography>
       </Box>
       <Stack spacing={2}>
+        <TextField
+          id="filled-basic"
+          label="Full Name"
+          variant="filled"
+          onChange={(e) => setFullname(e.target.value)}
+        />
         <TextField
           id="filled-basic"
           label="Email"
@@ -42,7 +56,7 @@ export default function Signup() {
           variant="filled"
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button>Sign up</Button>
+        <Button onClick={submit}>Sign up</Button>
       </Stack>
     </Container>
   );

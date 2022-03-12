@@ -13,7 +13,6 @@ import (
 	"github.com/cstevenson98/todo-gql/server/graph/model"
 	"github.com/gorilla/websocket"
 	_ "github.com/lib/pq"
-	"github.com/rs/cors"
 	"log"
 	"net/http"
 	"os"
@@ -28,6 +27,23 @@ const (
 	password = "root"
 	dbname   = "todo_db"
 )
+
+func CorsMiddleware() func(http.Handler) http.Handler {
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3001")
+			w.Header().Set("Access-Control-Allow-Credentials", "true")
+			w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+			w.Header().Set("Access-Control-Allow-Headers",
+				"Accept, Content-Type, Content-Length, Accept-Encoding, Authorization")
+			if r.Method == "OPTIONS" {
+				return
+			}
+
+			next.ServeHTTP(w, r)
+		})
+	}
+}
 
 func main() {
 	port := os.Getenv("PORT")
@@ -53,11 +69,11 @@ func main() {
 
 	/////
 
-	c := cors.New(cors.Options{
-		AllowedOrigins:   []string{"http://localhost:*"},
-		AllowCredentials: true,
-		Debug:            false,
-	})
+	//c := cors.New(cors.Options{
+	//	AllowedOrigins:   []string{"*"},
+	//	AllowCredentials: true,
+	//	Debug:            false,
+	//})
 
 	srv := handler.New(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{
 		DB:            db,
@@ -77,7 +93,7 @@ func main() {
 	srv.Use(extension.Introspection{})
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/graphql"))
-	http.Handle("/graphql", c.Handler(auth.Middleware()(srv)))
+	http.Handle("/graphql", CorsMiddleware()(auth.Middleware()(srv)))
 
 	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))
