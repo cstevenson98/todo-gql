@@ -33,12 +33,12 @@ func (r *mutationResolver) Login(ctx context.Context, email string, password str
 		return nil, userErr
 	}
 
-	token, err := token.GenerateToken(user.Name, user.ID)
+	generatedToken, err := token.GenerateToken(user.Name, user.ID)
 	if err != nil {
 		return &model.AuthToken{}, err
 	}
 
-	return &model.AuthToken{Token: token}, nil
+	return &model.AuthToken{Token: generatedToken}, nil
 }
 
 func (r *mutationResolver) Signup(ctx context.Context, email string, password string, input model.NewUser) (*model.AuthToken, error) {
@@ -47,12 +47,12 @@ func (r *mutationResolver) Signup(ctx context.Context, email string, password st
 		return &model.AuthToken{}, err
 	}
 
-	token, err := token.GenerateToken(newUser.Name, newUser.ID)
+	generatedToken, err := token.GenerateToken(newUser.Name, newUser.ID)
 	if err != nil {
 		return &model.AuthToken{}, err
 	}
 
-	return &model.AuthToken{Token: token}, nil
+	return &model.AuthToken{Token: generatedToken}, nil
 }
 
 func (r *queryResolver) Mytodos(ctx context.Context) ([]*model.Todo, error) {

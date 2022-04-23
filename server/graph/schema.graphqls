@@ -39,7 +39,7 @@ type AuthToken {
 }
 
 type Mutation {
-  createTodo  (input: NewTodo!): Todo!
+  createTodo(input: NewTodo!): Todo!
 
   createGroupTodo(input: NewTodo!): Todo!
 

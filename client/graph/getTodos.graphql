@@ -1,4 +1,4 @@
-query GetTodos {
+query MyTodos {
   mytodos {
     id
     title

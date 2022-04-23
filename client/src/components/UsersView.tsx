@@ -1,30 +1,22 @@
 import React, { useState } from "react";
 import {
-  Box,
   Button,
+  Box,
+  ClickAwayListener,
   Container,
-  Stack,
   Tab,
   Tabs,
-  TextField,
 } from "@mui/material";
 import TodoListTab from "./TodoListTab";
-import { useCreateTodoMutation } from "../generated";
+import TodoAdd from "./TodoAdd";
 
 export default function UsersView() {
   const [value, setValue] = useState(0);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-
-  const [result, executeMutation] = useCreateTodoMutation();
-
-  const submit = () => {
-    executeMutation({ title: title, description: description });
-  };
-
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
+  const [toggleAddNewTodo, setToggleAddNewTodo] = useState(false);
 
   return (
     <Container maxWidth="sm">
@@ -40,24 +32,17 @@ export default function UsersView() {
       <Box sx={{ marginTop: 5 }}>
         <TodoListTab />
       </Box>
-      <Stack spacing={2}>
-        <TextField
-          id="title"
-          label="Title"
-          variant="filled"
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        <TextField
-          id="description"
-          label="Description"
-          type="description"
-          variant="filled"
-          onChange={(e) => setDescription(e.target.value)}
-        />
-        <Button variant="contained" onClick={submit}>
-          Log in
-        </Button>
-      </Stack>
+
+      {/* New todo add */}
+      <ClickAwayListener onClickAway={() => setToggleAddNewTodo(false)}>
+        <Container sx={{ margin: 3 }}>
+          {!toggleAddNewTodo ? (
+            <Button onClick={() => setToggleAddNewTodo(true)}>Add</Button>
+          ) : (
+            <TodoAdd />
+          )}
+        </Container>
+      </ClickAwayListener>
     </Container>
   );
 }

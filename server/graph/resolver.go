@@ -262,4 +262,3 @@ func (r *Resolver) GetUserByEmailIfValid(email, password string) (*model.User, e
 
 	return out, nil
 }
-

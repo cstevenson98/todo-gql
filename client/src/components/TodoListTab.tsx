@@ -1,11 +1,11 @@
-import { useGetTodosQuery } from "../generated";
+import { useMyTodosQuery } from "../generated";
 import Stack from "@mui/material/Stack";
 import Card from "@mui/material/Card";
 import { CardContent, Typography } from "@mui/material";
 import React from "react";
 
 export default function TodoListTab() {
-  const [result] = useGetTodosQuery();
+  const [result] = useMyTodosQuery();
 
   return (
     <Stack spacing={2}>
