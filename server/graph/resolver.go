@@ -30,7 +30,7 @@ func (r *Resolver) UserLogIn(email, password string) (*model.User, error) {
 	query := `SELECT id, password FROM users WHERE users.email = ` + email
 	rows, err := r.DB.Query(query)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("no users with those credentials found")
 	}
 	defer rows.Close()
 

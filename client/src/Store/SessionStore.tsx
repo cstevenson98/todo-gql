@@ -10,7 +10,8 @@ export const SessionContext = React.createContext<SessionContextType | null>(
 );
 
 const SessionProvider = ({ children }: { children: JSX.Element }) => {
-  const [isLogged, setIsLogged] = useState<boolean>(false);
+  const token = localStorage.getItem("token");
+  const [isLogged, setIsLogged] = useState<boolean>(!!token);
 
   return (
     <SessionContext.Provider

@@ -1,16 +1,13 @@
-import {
-  Box,
-  Button,
-  Container,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import { SessionContext, SessionContextType } from "../Store/SessionStore";
-import { useLoginMutation, useSignupMutation } from "../generated";
+import { useLoginMutation } from "../generated";
+import { SignUpTab } from "../consts/consts";
 
-export default function Login() {
+export default function Login({
+  setTab,
+}: {
+  setTab: React.Dispatch<React.SetStateAction<number>>;
+}) {
   const { setIsLogged } = useContext(SessionContext) as SessionContextType;
   const [result, executeMutation] = useLoginMutation();
   const [email, setEmail] = useState("");
@@ -28,23 +25,54 @@ export default function Login() {
   }, [result]);
 
   return (
-    <Stack spacing={2}>
-      <TextField
-        id="email"
-        label="Email"
-        variant="filled"
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <TextField
-        id="password"
-        label="Password"
-        type="password"
-        variant="filled"
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <Button variant="contained" onClick={submit}>
-        Log in
-      </Button>
-    </Stack>
+    <div className="hero pt-12">
+      <div className="hero-content flex-col lg:flex-row-reverse">
+        <div className="flex-col">
+          <div className="flex justify-center">
+            <div className="text-3xl mb-11">Log in, if you please</div>
+          </div>
+          <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+            <div className="card-body">
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Email</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="email"
+                  className="input input-bordered"
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Password</span>
+                </label>
+                <input
+                  type="password"
+                  placeholder="password"
+                  className="input input-bordered block"
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+              <div className="form-control mt-6">
+                <button className="btn btn-primary" onClick={submit}>
+                  Log in
+                </button>
+              </div>
+              <div className="flex items-center pt-4">
+                <div className="text-xs mr-1">Don't have an account?</div>
+                <div
+                  className="text-xs text-blue-600 hover:underline cursor-pointer"
+                  onClick={() => setTab(SignUpTab)}
+                >
+                  Sign up...
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
