@@ -1,4 +1,4 @@
-React-Go Fullstack Todo List
+Fullstack Todo App (ReactTS/Go/GraphQL)
 ===
 <p float="left">
   <img src="https://user-images.githubusercontent.com/11011155/178117836-01535aa2-99f0-4460-a020-818efe9ea2a6.png" alt="drawing" width="50"/>
