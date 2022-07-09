@@ -83,6 +83,9 @@ func main() {
 		},
 	})
 
+	// print env variables
+	fmt.Println("HOST_ADDRESS:", os.Getenv("HOST_ADDRESS"))
+
 	srv.Use(extension.Introspection{})
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/graphql"))

@@ -22,7 +22,7 @@ export default function Todos() {
         <div className="flex-col">
           {result.data?.mytodos.map((elem) => {
             return (
-              <div className="card w-96 bg-primary shadow-lg text-primary-content m-3">
+              <div className="card w-52 bg-primary shadow-lg text-primary-content m-3">
                 <div className="card-body">
                   <h2 className="card-title">{elem.title}</h2>
                   <p>{elem.description}</p>

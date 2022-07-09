@@ -20,7 +20,7 @@ export default function Navbar() {
     GlobalActionsContext
   ) as GlobalActionsContextType;
 
-  console.log("isAddModalOpen", isAddModalOpen);
+  console.log("host", location.hostname);
 
   return (
     <div className="navbar bg-base-100">

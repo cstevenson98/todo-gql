@@ -14,11 +14,7 @@ To build locally
 
 This requires docker and `docker-compose` to be installed.
 
-  - `docker-compose up -d`
+  - `HOST_ADDRESS=<your_ip_address> docker-compose up -d`
    
 Screenshots
 --
-
-Future plans
---
-I want to implement subscriptions so that the client can see real time updates, in shared lists for example.

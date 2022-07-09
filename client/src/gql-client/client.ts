@@ -13,7 +13,7 @@ export interface authTokenType {
 
 const Client = () =>
   createClient({
-    url: "http://localhost:8080/graphql",
+    url: `http://${location.hostname}:8080/graphql`,
     exchanges: [
       dedupExchange,
       cacheExchange,
@@ -53,12 +53,9 @@ const Client = () =>
           );
         },
         getAuth: async ({ authState }) => {
-          console.log("Getting auth from session");
           // for initial launch, fetch the auth state from storage (local storage, async storage etc)
           if (!authState) {
-            console.log("State is empty, loading from storage");
             const token = localStorage.getItem("token");
-            console.log("Found token: ", token);
             if (token) {
               return { token };
             }
