@@ -8,6 +8,7 @@ import LoginOrSignup from "./components/LoginOrSignup";
 import Client from "./gql-client/client";
 import { Provider } from "urql";
 import Todos from "./components/Todos";
+import GlobalActionsProvider from "./Store/GlobalActionsStore";
 
 function Main() {
   const { isLogged } = useContext(SessionContext) as SessionContextType;
@@ -33,12 +34,14 @@ function Main() {
 
 function App() {
   return (
-    <SessionProvider>
-      <>
-        <Navbar />
-        <Main />
-      </>
-    </SessionProvider>
+    <GlobalActionsProvider>
+      <SessionProvider>
+        <>
+          <Navbar />
+          <Main />
+        </>
+      </SessionProvider>
+    </GlobalActionsProvider>
   );
 }
 

@@ -41,7 +41,7 @@ export default function Signup({
           <div className="flex justify-center">
             <div className="text-3xl mb-11">✨ Cheeky sign up..? ✨</div>
           </div>
-          <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+          <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl">
             <div className="card-body">
               <div className="form-control">
                 <label className="label">
@@ -49,7 +49,7 @@ export default function Signup({
                 </label>
                 <input
                   type="text"
-                  placeholder="email"
+                  placeholder="Full name"
                   className="input input-bordered"
                   onChange={(e) => setFullname(e.target.value)}
                 />

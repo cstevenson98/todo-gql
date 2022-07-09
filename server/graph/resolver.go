@@ -165,6 +165,49 @@ func (r *Resolver) GetTodos(IDs []string) ([]*model.Todo, error) {
 	return todos, nil
 }
 
+// DeleteTodo deletes a todo
+func (r *Resolver) RemoveTodo(userID, todoID string) (*model.Todo, error) {
+	// First check if the user has the todo
+	qry := `SELECT user_id FROM users_todos WHERE user_id = $1 AND todo_id = $2`
+	rows, getErr := r.DB.Query(qry, userID, todoID)
+	if getErr != nil {
+		return nil, getErr
+	}
+	defer rows.Close()
+
+	if !rows.Next() {
+		return nil, fmt.Errorf("user does not own todo")
+	}
+
+	// Next fetch the todo
+	qry = `SELECT id, title, description, done FROM todos WHERE id = $1`
+	rows, getErr = r.DB.Query(qry, todoID)
+	if getErr != nil {
+		return nil, getErr
+	}
+	defer rows.Close()
+
+	todo := &model.Todo{}
+	for rows.Next() {
+		err := rows.Scan(&todo.ID, &todo.Title, &todo.Description, &todo.Done)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	deleteQry := `DELETE FROM todos WHERE id = $1`
+	_, delErr := r.DB.Query(deleteQry, todoID)
+	if delErr != nil {
+		return nil, delErr
+	}
+
+	return todo, nil
+}
+
 // GetUserTodos get todos corresponding to USER
 func (r *Resolver) GetUserTodos(userID string) ([]*model.Todo, error) {
 	todoQry := `SELECT id, title, description, done FROM todos_users_view where user_id = '` + userID + `'`

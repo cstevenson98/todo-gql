@@ -9,12 +9,12 @@ export default function Login({
   setTab: React.Dispatch<React.SetStateAction<number>>;
 }) {
   const { setIsLogged } = useContext(SessionContext) as SessionContextType;
-  const [result, executeMutation] = useLoginMutation();
+  const [result, login] = useLoginMutation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const submit = () => {
-    executeMutation({ email: email, password: password });
+    login({ email: email, password: password });
   };
 
   useEffect(() => {
@@ -31,7 +31,7 @@ export default function Login({
           <div className="flex justify-center">
             <div className="text-3xl mb-11">Log in, if you please</div>
           </div>
-          <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+          <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl">
             <div className="card-body">
               <div className="form-control">
                 <label className="label">

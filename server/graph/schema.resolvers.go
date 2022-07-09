@@ -23,6 +23,16 @@ func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) 
 	return newTodo, nil
 }
 
+func (r *mutationResolver) DeleteTodo(ctx context.Context, todoID string) (*model.Todo, error) {
+	userToAuth := auth.ForContext(ctx)
+	todo, err := r.RemoveTodo(userToAuth.ID, todoID)
+	if err != nil {
+		return nil, err
+	}
+
+	return todo, nil
+}
+
 func (r *mutationResolver) CreateGroupTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
 	panic(fmt.Errorf("not implemented"))
 }
