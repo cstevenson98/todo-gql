@@ -1,10 +1,11 @@
 Fullstack Todo App (ReactTS/Go/GraphQL)
 ===
 <p float="left">
-  <img src="https://user-images.githubusercontent.com/11011155/178117836-01535aa2-99f0-4460-a020-818efe9ea2a6.png" alt="drawing" width="50"/>
-  <img src="https://user-images.githubusercontent.com/11011155/178117691-ef0a41e9-2b01-4135-a35d-460f56ed8ba1.png" alt="drawing" width="50"/>
-  <img src="https://user-images.githubusercontent.com/11011155/178117696-036d0499-110f-4707-a357-b0b58f1444fb.png" alt="drawing" width="40"/>
-  <img src="https://user-images.githubusercontent.com/11011155/178117874-9636e045-14ec-4cc9-b49d-64c906e36e6d.png" alt="drawing" width="50"/>
+  <img src="https://user-images.githubusercontent.com/11011155/178117836-01535aa2-99f0-4460-a020-818efe9ea2a6.png" alt="drawing" width="43"/>
+  <img src="https://user-images.githubusercontent.com/11011155/178117691-ef0a41e9-2b01-4135-a35d-460f56ed8ba1.png" alt="drawing" width="30"/>
+  <img src="https://user-images.githubusercontent.com/11011155/178117696-036d0499-110f-4707-a357-b0b58f1444fb.png" alt="drawing" width="30"/>
+  <img src="https://user-images.githubusercontent.com/11011155/178117874-9636e045-14ec-4cc9-b49d-64c906e36e6d.png" alt="drawing" width="30"/>
+  <img src="https://user-images.githubusercontent.com/11011155/178118253-719c8246-9f06-4836-ac48-3ddbfeb93349.png" alt="drawing" width="30"/>
 </p>
 
 Live [demo](http://178.62.77.236:3000/).
