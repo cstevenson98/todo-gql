@@ -51,9 +51,14 @@ func main() {
 		port = defaultPort
 	}
 
+	hostAddr := os.Getenv("HOST_ADDRESS")
+	if hostAddr == "" {
+		hostAddr = host
+	}
+
 	// Database connection logic
 	psqlconn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
-		host, dbport, user, password, dbname)
+		hostAddr, dbport, user, password, dbname)
 
 	db, err := sql.Open("postgres", psqlconn)
 	if err != nil {
@@ -82,9 +87,6 @@ func main() {
 			},
 		},
 	})
-
-	// print env variables
-	fmt.Println("HOST_ADDRESS:", os.Getenv("HOST_ADDRESS"))
 
 	srv.Use(extension.Introspection{})
 
