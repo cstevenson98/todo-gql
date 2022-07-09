@@ -19,5 +19,4 @@ This requires docker and `docker-compose` to be installed.
 
   - `HOST_ADDRESS=<your_ip_address> docker-compose up -d`
    
-Screenshots
---
+And then open `http://localhost:3000/` in your browser to view.
