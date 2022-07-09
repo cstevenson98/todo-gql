@@ -1,7 +1,7 @@
 React-Go Fullstack Todo List
 ===
 
-Live [demo]().
+Live [demo](http://178.62.77.236:3000/).
 
 This is a project where the goal was to have much of the code generated for full type safety. I used in the backend `gqlgen` to generate the Go server's resolvers. This hooks into the postgres database. 
 
