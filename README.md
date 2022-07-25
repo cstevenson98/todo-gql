@@ -8,8 +8,6 @@ Fullstack Todo App (ReactTS/Go/GraphQL)
   <img src="https://user-images.githubusercontent.com/11011155/178118253-719c8246-9f06-4836-ac48-3ddbfeb93349.png" alt="drawing" width="30"/>
 </p>
 
-Live [demo](http://178.62.77.236:3000/).
-
 A todo app I wrote which has as its stack a Go-based GraphQL server and a React frontend. The central interesting aspect is that all types, in both the backend and frontend code, are generated from the GraphQL schema, and so this gives nice type safety across the project.
 
 To build locally
